@@ -1,74 +1,88 @@
-import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import Stripe from 'stripe'
+// src/app/api/billing/portal/route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import Stripe from "stripe";
 
-export const dynamic = 'force-dynamic'
+export const runtime = "nodejs";
 
-export async function POST() {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2024-06-20" });
+
+type PortalBody = {
+  /** Optional: override Stripe customer id. If omitted, we'll load it from the logged-in user's profile. */
+  customerId?: string;
+  /** Optional: override return URL for when the user exits the portal. */
+  returnUrl?: string;
+};
+
+export async function POST(req: NextRequest) {
   try {
-    // 1) Require auth
-    const cookieStore = await cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
-    const { data: { user }, error: userErr } = await supabase.auth.getUser()
+    // 1) Auth: must be signed in
+    const supabase = createRouteHandlerClient({ cookies });
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
+
     if (userErr || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // 2) Env + Stripe
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL!
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' })
-    if (!siteUrl) {
-      return NextResponse.json({ error: 'Missing NEXT_PUBLIC_SITE_URL' }, { status: 500 })
-    }
-
-    // 3) Get (or discover) the Stripe customer id from your profiles table
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('stripe_customer_id, email')
-      .eq('id', user.id)
-      .maybeSingle()
-
-    let customerId = profile?.stripe_customer_id ?? null
-
-    // If we don't have it yet, try to find by email in Stripe (handy if the webhook
-    // hasn’t written it yet). Then store it for next time.
-    if (!customerId && user.email) {
-      try {
-        const found = await stripe.customers.search({
-          // exact-match email search
-          query: `email:'${user.email.replace(/'/g, "\\'")}'`,
-          limit: 1,
-        })
-        const c = found.data?.[0]
-        if (c?.id) {
-          customerId = c.id
-          await supabase.from('profiles')
-            .update({ stripe_customer_id: c.id })
-            .eq('id', user.id)
-        }
-      } catch {
-        // ignore search errors; we'll just return a helpful message below
+    // 2) Parse body (typed)
+    let body: PortalBody = {};
+    try {
+      if (req.headers.get("content-length") !== "0") {
+        body = (await req.json()) as PortalBody;
       }
+    } catch {
+      // ignore invalid/empty JSON; we'll just rely on DB lookup
+    }
+
+    // 3) Figure out the Stripe customer id
+    let customerId = body.customerId;
+    if (!customerId) {
+      const { data: profile, error: profErr } = await supabase
+        .from("profiles")
+        .select("stripe_customer_id")
+        .eq("id", user.id)
+        .single();
+
+      if (profErr) {
+        return NextResponse.json(
+          { error: "Could not load profile" },
+          { status: 500 }
+        );
+      }
+
+      customerId = profile?.stripe_customer_id ?? undefined;
     }
 
     if (!customerId) {
       return NextResponse.json(
-        { error: 'No Stripe customer found for this user yet.' },
+        { error: "No Stripe customer on file for this user" },
         { status: 400 }
-      )
+      );
     }
 
-    // 4) Create the Billing Portal session
+    // 4) Build return URL
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    if (!siteUrl) {
+      return NextResponse.json(
+        { error: "Missing NEXT_PUBLIC_SITE_URL" },
+        { status: 500 }
+      );
+    }
+    const returnUrl = body.returnUrl ?? `${siteUrl}/account`;
+
+    // 5) Create the portal session
     const portal = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: `${siteUrl}/dashboard?billing=managed`,
-    })
+      return_url: returnUrl,
+    });
 
-    return NextResponse.json({ url: portal.url })
-  } catch (err: any) {
-    console.error('billing portal error:', err)
-    const msg = err?.message || 'Failed to create billing portal session'
-    return NextResponse.json({ error: msg }, { status: 500 })
+    return NextResponse.json({ url: portal.url }, { status: 200 });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

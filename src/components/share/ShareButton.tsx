@@ -1,60 +1,83 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Button } from '@/components/ui'
+import * as React from 'react';
+import { Button } from '@/components/ui';
 
-type Props = { id: string }
+type Props = { id: string };
+
+type ShareSuccess = {
+  token: string;
+  expires_at?: string | null;
+};
 
 export function ShareButton({ id }: Props) {
   const [status, setStatus] =
-    useState<'idle' | 'working' | 'copied' | 'error'>('idle')
-  const [errMsg, setErrMsg] = useState<string>('')
+    React.useState<'idle' | 'working' | 'copied' | 'error'>('idle');
+  const [errMsg, setErrMsg] = React.useState<string>('');
 
   async function handleShare() {
-    if (status === 'working') return
-    setStatus('working')
-    setErrMsg('')
+    if (status === 'working') return;
+    setStatus('working');
+    setErrMsg('');
 
     try {
       const res = await fetch(`/api/designs/${id}/share`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-      })
+      });
 
-      let payload: any = null
-      let fallbackText = ''
-      try {
-        payload = await res.json()
-      } catch {
-        fallbackText = await res.text().catch(() => '')
-      }
+      // Try JSON first, fall back to text for better error messages
+      const contentType = res.headers.get('content-type') ?? '';
+      const isJson = contentType.includes('application/json');
+
+      const data: unknown = isJson ? await res.json().catch(() => undefined) : undefined;
+      const textFallback = !isJson ? await res.text().catch(() => '') : '';
 
       if (!res.ok) {
         const message =
-          payload?.error || fallbackText || `HTTP ${res.status}`
-        throw new Error(message)
+          (typeof data === 'object' &&
+            data !== null &&
+            'error' in data &&
+            typeof (data as { error?: unknown }).error === 'string' &&
+            (data as { error: string }).error) ||
+          textFallback ||
+          `HTTP ${res.status}`;
+        throw new Error(message);
       }
 
-      const token: string = payload.token
+      // Narrow the success payload
+      if (
+        typeof data !== 'object' ||
+        data === null ||
+        !('token' in data) ||
+        typeof (data as Record<string, unknown>).token !== 'string'
+      ) {
+        throw new Error('Malformed response');
+      }
+
+      const { token } = data as ShareSuccess;
+
       const origin =
         typeof window !== 'undefined' && window.location?.origin
           ? window.location.origin
-          : ''
-      const shareUrl = `${origin}/share/${token}`
+          : '';
+      const shareUrl = `${origin}/share/${token}`;
 
-      if (navigator?.clipboard?.writeText) {
-        await navigator.clipboard.writeText(shareUrl)
-        setStatus('copied')
-        setTimeout(() => setStatus('idle'), 2000)
+      // Copy to clipboard if available, otherwise open in a new tab
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+        setStatus('copied');
+        setTimeout(() => setStatus('idle'), 2000);
       } else {
-        window.open(shareUrl, '_blank', 'noopener,noreferrer')
-        setStatus('idle')
+        window.open(shareUrl, '_blank', 'noopener,noreferrer');
+        setStatus('idle');
       }
-    } catch (e: any) {
-      console.error(e)
-      setErrMsg(e?.message || 'Something went wrong')
-      setStatus('error')
-      setTimeout(() => setStatus('idle'), 2500)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Something went wrong';
+      console.error(err);
+      setErrMsg(message);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 2500);
     }
   }
 
@@ -65,7 +88,6 @@ export function ShareButton({ id }: Props) {
         onClick={handleShare}
         disabled={status === 'working'}
         className="border border-zinc-300 dark:border-zinc-700"
-        variant="ghost"
       >
         {status === 'working' ? 'Creating…' : 'Create share link'}
       </Button>
@@ -89,5 +111,5 @@ export function ShareButton({ id }: Props) {
           : ''}
       </div>
     </div>
-  )
+  );
 }

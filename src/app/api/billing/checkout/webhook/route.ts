@@ -1,121 +1,124 @@
-import { NextResponse } from 'next/server'
-import Stripe from 'stripe'
-import { createClient } from '@supabase/supabase-js'
+// src/app/api/stripe/webhook/route.ts
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+import { createClient } from "@supabase/supabase-js";
 
-export const dynamic = 'force-dynamic'
+export const runtime = "nodejs";          // webhooks need Node runtime
+export const dynamic = "force-dynamic";
 
-// Stripe client
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' })
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
+// Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2024-06-20" });
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
-// Use the **service role** key on the server for webhooks.
-// DO NOT expose this key to the browser.
+// Supabase (server-only key)
 const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // server-only env var
-)
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,     // if you have a server-only SUPABASE_URL, prefer that
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export async function POST(req: Request) {
-  const sig = req.headers.get('stripe-signature')
-  if (!sig) return NextResponse.json({ error: 'No signature' }, { status: 400 })
+  const sig = req.headers.get("stripe-signature");
+  if (!sig) return NextResponse.json({ error: "Missing signature" }, { status: 400 });
 
-  const buf = await req.arrayBuffer()
+  // Get the raw body exactly as received
+  const rawBody = await req.text();
 
-  let event: Stripe.Event
+  let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(Buffer.from(buf), sig, webhookSecret)
-  } catch (err: any) {
-    return NextResponse.json({ error: `Invalid signature: ${err.message}` }, { status: 400 })
+    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    return NextResponse.json({ error: `Invalid signature: ${msg}` }, { status: 400 });
   }
 
   try {
     switch (event.type) {
-      case 'checkout.session.completed': {
-        const session = event.data.object as Stripe.Checkout.Session
+      case "checkout.session.completed": {
+        const session = event.data.object as Stripe.Checkout.Session;
 
-        // Identify the user: prefer metadata (set when creating the Checkout Session),
-        // otherwise fall back to email.
-        const userId = (session.metadata as Record<string, string> | null | undefined)?.supabase_user_id
-        const email = session.customer_details?.email ?? null
+        // Identify user: prefer metadata, then client_reference_id, then email
+        const md = (session.metadata ?? {}) as Record<string, string>;
+        const userId =
+          md.app_user_id || md.supabase_user_id || (session.client_reference_id ?? undefined);
+        const email = session.customer_details?.email ?? undefined;
 
-        // Stripe objects we want to persist
-        const stripeCustomerId = (session.customer as string | undefined) ?? null
+        const stripeCustomerId = (session.customer as string | null) ?? undefined;
         const stripeSubscriptionId =
-          (typeof session.subscription === 'string'
+          typeof session.subscription === "string"
             ? session.subscription
-            : session.subscription?.id) ?? null
+            : session.subscription?.id;
 
-        // Only subscriptions are relevant now
-        if (session.mode === 'subscription') {
+        if (session.mode === "subscription") {
           if (userId) {
             await supabaseAdmin
-              .from('profiles')
+              .from("profiles")
               .update({
-                plan: 'pro',
-                stripe_customer_id: stripeCustomerId,
-                stripe_subscription_id: stripeSubscriptionId,
-                subscription_status: 'active',
+                plan: "pro",
+                stripe_customer_id: stripeCustomerId ?? null,
+                stripe_subscription_id: stripeSubscriptionId ?? null,
+                subscription_status: "active",
               })
-              .eq('id', userId)
+              .eq("id", userId);
           } else if (email) {
             await supabaseAdmin
-              .from('profiles')
+              .from("profiles")
               .update({
-                plan: 'pro',
-                stripe_customer_id: stripeCustomerId,
-                stripe_subscription_id: stripeSubscriptionId,
-                subscription_status: 'active',
+                plan: "pro",
+                stripe_customer_id: stripeCustomerId ?? null,
+                stripe_subscription_id: stripeSubscriptionId ?? null,
+                subscription_status: "active",
               })
-              .eq('email', email)
+              .eq("email", email);
           }
         }
-        break
+        break;
       }
 
-      case 'customer.subscription.updated': {
-        const sub = event.data.object as Stripe.Subscription
-        const status = sub.status // 'active' | 'canceled' | 'past_due' | 'unpaid' | 'trialing' | 'incomplete'...
-        const customerId = sub.customer as string
+      case "customer.subscription.updated": {
+        const sub = event.data.object as Stripe.Subscription;
+        const status = sub.status; // 'active' | 'canceled' | 'past_due' | etc.
+        const customerId = sub.customer as string;
 
-        const plan = status === 'active' || status === 'trialing' ? 'pro' : 'starter'
+        const plan = status === "active" || status === "trialing" ? "pro" : "starter";
 
         await supabaseAdmin
-          .from('profiles')
+          .from("profiles")
           .update({
             plan,
             stripe_subscription_id: sub.id,
             subscription_status: status,
           })
-          .eq('stripe_customer_id', customerId)
+          .eq("stripe_customer_id", customerId);
 
-        break
+        break;
       }
 
-      case 'customer.subscription.deleted': {
-        const sub = event.data.object as Stripe.Subscription
-        const customerId = sub.customer as string
+      case "customer.subscription.deleted": {
+        const sub = event.data.object as Stripe.Subscription;
+        const customerId = sub.customer as string;
 
         await supabaseAdmin
-          .from('profiles')
+          .from("profiles")
           .update({
-            plan: 'starter',
+            plan: "starter",
             stripe_subscription_id: null,
-            subscription_status: 'canceled',
+            subscription_status: "canceled",
           })
-          .eq('stripe_customer_id', customerId)
+          .eq("stripe_customer_id", customerId);
 
-        break
+        break;
       }
 
+      // add more cases as needed (invoice.paid, invoice.payment_failed, etc.)
       default:
-        // no-op for other events
-        break
+        break;
     }
-  } catch (err) {
-    console.error('Webhook handler failed:', err)
-    return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 })
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    console.error("Webhook handler failed:", err);
+    return NextResponse.json({ error: `Webhook handler failed: ${msg}` }, { status: 500 });
   }
 
-  // Respond 200 to acknowledge receipt
-  return NextResponse.json({ received: true })
+  // Acknowledge receipt
+  return NextResponse.json({ received: true });
 }

@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { cn } from '@/lib/cn'
+import * as React from "react";
+import { cn } from "@/lib/cn";
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, ...props }, ref) => {
@@ -9,14 +9,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-medium',
-          'bg-black text-white dark:bg-white dark:text-black',
-          'hover:opacity-90 transition',
+          "inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-medium",
+          "bg-black text-white dark:bg-white dark:text-black",
+          "hover:opacity-90 transition",
           className
         )}
         {...props}
       />
-    )
+    );
   }
-)
-Button.displayName = 'Button'
+);
+Button.displayName = "Button";
