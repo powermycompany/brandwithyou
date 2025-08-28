@@ -1,3 +1,4 @@
+// app/(auth)/signin/page.tsx
 'use client';
 
 import * as React from 'react';
@@ -85,6 +86,12 @@ function SignInInner() {
     return () => unsub?.();
   }, [handleSignedIn, supabase]);
 
+  // ✅ Build a safe origin for redirectTo:
+  const origin =
+    typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_SITE_URL || 'https://brandwithyou.com';
+
   return (
     <div className="mx-auto max-w-md px-6 py-20">
       <h1 className="mb-2 text-2xl font-bold">Sign in</h1>
@@ -99,11 +106,7 @@ function SignInInner() {
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
           providers={['google']}
-          redirectTo={
-            typeof window !== 'undefined'
-              ? `${window.location.origin}/signin?redirect=${encodeURIComponent(redirectTarget)}`
-              : undefined
-          }
+          redirectTo={`${origin}/signin?redirect=${encodeURIComponent(redirectTarget)}`}
         />
       )}
     </div>
