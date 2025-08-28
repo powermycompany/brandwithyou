@@ -1,3 +1,4 @@
+// src/components/support/AdminReplyForm.tsx
 'use client';
 
 import * as React from 'react';
@@ -9,7 +10,7 @@ export default function AdminReplyForm({ ticketId }: { ticketId: string }) {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (sending) return; // prevent double-submit
+    if (sending) return;
     setError(null);
     setSending(true);
 
@@ -21,18 +22,14 @@ export default function AdminReplyForm({ ticketId }: { ticketId: string }) {
       });
 
       if (!res.ok) {
-        // try to surface a JSON error message, else fallback to status
         let message = `HTTP ${res.status}`;
         try {
           const json = (await res.json()) as { error?: unknown };
           if (json && typeof json.error === 'string') message = json.error;
-        } catch {
-          // ignore JSON parse errors
-        }
+        } catch { /* ignore */ }
         throw new Error(message);
       }
 
-      // refresh page to show the new message
       window.location.reload();
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to send';

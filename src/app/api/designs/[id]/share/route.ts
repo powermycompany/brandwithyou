@@ -6,25 +6,19 @@ import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-type ShareRecord = {
-  token: string;
-  expires_at: string | null;
-};
+type ShareRecord = { token: string; expires_at: string | null };
 
 export async function POST(
   req: Request,
   ctx: { params: Promise<{ id: string }> }
 ) {
-  // Next 15: params is a Promise
   const { id } = await ctx.params;
 
-  // Auth (must be signed in)
   const supabase = createRouteHandlerClient({ cookies });
   const {
     data: { user },
     error: userErr,
   } = await supabase.auth.getUser();
-
   if (userErr || !user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -33,12 +27,9 @@ export async function POST(
     const url = new URL(req.url);
     const rotate = url.searchParams.get("rotate") === "1";
 
-    // Call the RPC that creates (or reuses) a share record
-    // Ensure this RPC exists in your DB:
-    //   create_or_get_design_share(p_design_id uuid, p_ttl_minutes int, p_rotate boolean)
     const { data, error } = await supabase.rpc("create_or_get_design_share", {
       p_design_id: id,
-      p_ttl_minutes: 60 * 24 * 7, // 7 days
+      p_ttl_minutes: 60 * 24 * 7,
       p_rotate: rotate,
     });
 
@@ -51,11 +42,7 @@ export async function POST(
     }
 
     const record = data as ShareRecord;
-
-    return NextResponse.json({
-      token: record.token,
-      expires_at: record.expires_at,
-    });
+    return NextResponse.json({ token: record.token, expires_at: record.expires_at });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unexpected error";
     console.error("share route fatal error:", err);

@@ -19,51 +19,30 @@ type SharedDesign = {
   created_at: string;
 };
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { token: string } }
-) {
+export async function GET(_req: Request, { params }: { params: { token: string } }) {
   try {
     const supabase = createRouteHandlerClient({ cookies });
-
-    // Fetch design via token (anon allowed)
     const { data, error } = await supabase
       .rpc("get_design_by_share_token", { p_token: params.token })
       .single();
-
-    if (error || !data) {
-      return new NextResponse("Not found or expired", { status: 404 });
-    }
-
+    if (error || !data) return new NextResponse("Not found or expired", { status: 404 });
     const design = data as SharedDesign;
 
-    // Build PDF
     const pdf = await PDFDocument.create();
-    const page = pdf.addPage([595.28, 841.89]); // A4 @ 72dpi
+    const page = pdf.addPage([595.28, 841.89]);
     const { width, height } = page.getSize();
-
     const margin = 36;
     const contentWidth = width - margin * 2;
 
     const font = await pdf.embedFont(StandardFonts.Helvetica);
     const fontBold = await pdf.embedFont(StandardFonts.HelveticaBold);
 
-    page.drawText("Tech Pack (Shared)", {
-      x: margin,
-      y: height - margin - 12,
-      size: 20,
-      font: fontBold,
-    });
+    page.drawText("Tech Pack (Shared)", { x: margin, y: height - margin - 12, size: 20, font: fontBold });
     page.drawText(`Generated: ${new Date().toLocaleString()}`, {
-      x: margin,
-      y: height - margin - 35,
-      size: 10,
-      font,
-      color: rgb(0.35, 0.35, 0.35),
+      x: margin, y: height - margin - 35, size: 10, font, color: rgb(0.35, 0.35, 0.35),
     });
 
-    // Image block
-    const imageBottomY = height - margin - 60; // const (no prefer-const warning)
+    const imageBottomY = height - margin - 60; // const (fix)
     let blockBottomY = imageBottomY - 300;
 
     try {
@@ -75,12 +54,7 @@ export async function GET(
         const ratio = embed.width / embed.height;
         const drawW = contentWidth;
         const drawH = drawW / ratio;
-        page.drawImage(embed, {
-          x: margin,
-          y: imageBottomY - drawH,
-          width: drawW,
-          height: drawH,
-        });
+        page.drawImage(embed, { x: margin, y: imageBottomY - drawH, width: drawW, height: drawH });
         return imageBottomY - drawH - 16;
       };
 
@@ -91,45 +65,28 @@ export async function GET(
         const img = await pdf.embedJpg(arr);
         blockBottomY = await drawFullWidth(img);
       } else {
-        // Fallback (e.g., SVG or unknown)
         page.drawText("Image (SVG/unsupported) — open URL:", {
-          x: margin,
-          y: imageBottomY - 14,
-          size: 12,
-          font: fontBold,
+          x: margin, y: imageBottomY - 14, size: 12, font: fontBold,
         });
         page.drawText(design.image_url, {
-          x: margin,
-          y: imageBottomY - 30,
-          size: 10,
-          font,
-          color: rgb(0.1, 0.1, 0.8),
+          x: margin, y: imageBottomY - 30, size: 10, font, color: rgb(0.1, 0.1, 0.8),
         });
         blockBottomY = imageBottomY - 50;
       }
     } catch {
       page.drawText("Image could not be embedded.", {
-        x: margin,
-        y: imageBottomY - 14,
-        size: 12,
-        font: fontBold,
-        color: rgb(0.8, 0.1, 0.1),
+        x: margin, y: imageBottomY - 14, size: 12, font: fontBold, color: rgb(0.8, 0.1, 0.1),
       });
       blockBottomY = imageBottomY - 30;
     }
 
-    // Specs
     const line = (label: string, value: string, y: number) => {
       page.drawText(`${label}:`, { x: margin, y, size: 12, font: fontBold });
       page.drawText(value, { x: margin + 90, y, size: 12, font });
     };
 
     line("Design ID", String(design.id), blockBottomY);
-    line(
-      "Dimensions",
-      `${design.width ?? "-"} × ${design.height ?? "-"} × ${design.depth ?? "-"} cm`,
-      blockBottomY - 18
-    );
+    line("Dimensions", `${design.width ?? "-"} × ${design.height ?? "-"} × ${design.depth ?? "-"} cm`, blockBottomY - 18);
     line("Material", design.material || "-", blockBottomY - 36);
     line("Color", design.color || "-", blockBottomY - 54);
     line("Created", new Date(design.created_at).toLocaleString(), blockBottomY - 72);
@@ -139,7 +96,7 @@ export async function GET(
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="tech-pack-shared.pdf"`,
+        "Content-Disposition": 'attachment; filename="tech-pack-shared.pdf"',
         "Cache-Control": "no-store",
       },
     });

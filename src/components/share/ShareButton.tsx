@@ -1,14 +1,11 @@
+// src/components/share/ShareButton.tsx
 'use client';
 
 import * as React from 'react';
 import { Button } from '@/components/ui';
 
 type Props = { id: string };
-
-type ShareSuccess = {
-  token: string;
-  expires_at?: string | null;
-};
+type ShareSuccess = { token: string; expires_at?: string | null };
 
 export function ShareButton({ id }: Props) {
   const [status, setStatus] =
@@ -26,9 +23,8 @@ export function ShareButton({ id }: Props) {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      // Try JSON first, fall back to text for better error messages
-      const contentType = res.headers.get('content-type') ?? '';
-      const isJson = contentType.includes('application/json');
+      const ct = res.headers.get('content-type') ?? '';
+      const isJson = ct.includes('application/json');
 
       const data: unknown = isJson ? await res.json().catch(() => undefined) : undefined;
       const textFallback = !isJson ? await res.text().catch(() => '') : '';
@@ -45,7 +41,6 @@ export function ShareButton({ id }: Props) {
         throw new Error(message);
       }
 
-      // Narrow the success payload
       if (
         typeof data !== 'object' ||
         data === null ||
@@ -56,14 +51,12 @@ export function ShareButton({ id }: Props) {
       }
 
       const { token } = data as ShareSuccess;
-
       const origin =
         typeof window !== 'undefined' && window.location?.origin
           ? window.location.origin
           : '';
       const shareUrl = `${origin}/share/${token}`;
 
-      // Copy to clipboard if available, otherwise open in a new tab
       if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareUrl);
         setStatus('copied');
@@ -92,7 +85,6 @@ export function ShareButton({ id }: Props) {
         {status === 'working' ? 'Creating…' : 'Create share link'}
       </Button>
 
-      {/* non-blocking feedback pill */}
       <div
         aria-live="polite"
         className={`pointer-events-none select-none rounded-full px-2 py-0.5 text-xs transition-opacity ${
