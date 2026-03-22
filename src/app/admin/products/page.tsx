@@ -18,6 +18,7 @@ type Row = {
   brand_id: number | null;
   brand_subcategory_id: number | null;
   product_type_id: number | null;
+  currency?: string | null;
   catalog_main_categories?: { name_en: string | null } | null;
   catalog_brands?: { name_en: string | null } | null;
   catalog_brand_subcategories?: { name_en: string | null } | null;
@@ -98,6 +99,7 @@ export default function AdminProductsPage() {
             brand_id,
             brand_subcategory_id,
             product_type_id,
+            currency,
             catalog_main_categories(name_en),
             catalog_brands(name_en),
             catalog_brand_subcategories(name_en),
@@ -109,7 +111,7 @@ export default function AdminProductsPage() {
 
         if (productsErr) throw new Error(productsErr.message);
 
-        const products = (productsRaw ?? []) as Row[];
+        const products = ((productsRaw ?? []) as unknown) as Row[];
         const ids = products.map((p) => p.id).filter(Boolean);
 
         const pricingByProduct = new Map<string, PricingRow>();
@@ -121,7 +123,7 @@ export default function AdminProductsPage() {
 
           if (pricingErr) throw new Error(pricingErr.message);
 
-          for (const p of (pricingRaw ?? []) as PricingRow[]) {
+          for (const p of (((pricingRaw ?? []) as unknown) as PricingRow[])) {
             pricingByProduct.set(String(p.product_id), p);
           }
         }
@@ -136,7 +138,7 @@ export default function AdminProductsPage() {
 
           if (imgsErr) throw new Error(imgsErr.message);
 
-          for (const im of (imgsRaw ?? []) as ImgRow[]) {
+          for (const im of (((imgsRaw ?? []) as unknown) as ImgRow[])) {
             if (!firstImgByProduct.has(String(im.product_id))) {
               firstImgByProduct.set(String(im.product_id), im);
             }
@@ -163,7 +165,7 @@ export default function AdminProductsPage() {
               pricing?.base_price === null || pricing?.base_price === undefined
                 ? null
                 : Number(pricing.base_price),
-            pricing_currency: pricing?.currency ?? "USD",
+            pricing_currency: pricing?.currency ?? p.currency ?? "USD",
           };
         });
 
