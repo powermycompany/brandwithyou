@@ -1,0 +1,74 @@
+table_name,column_name,data_type
+catalog_brand_subcategories,id,bigint
+catalog_brand_subcategories,brand_id,bigint
+catalog_brand_subcategories,name_en,USER-DEFINED
+catalog_brand_subcategories,name_zh,text
+catalog_brand_subcategories,created_at,timestamp with time zone
+catalog_brand_subcategories,updated_at,timestamp with time zone
+catalog_brands,id,bigint
+catalog_brands,name_en,USER-DEFINED
+catalog_brands,name_zh,text
+catalog_brands,created_at,timestamp with time zone
+catalog_brands,updated_at,timestamp with time zone
+catalog_combinations,id,bigint
+catalog_combinations,main_category_id,bigint
+catalog_combinations,brand_id,bigint
+catalog_combinations,brand_subcategory_id,bigint
+catalog_combinations,product_type_id,bigint
+catalog_combinations,created_at,timestamp with time zone
+catalog_main_categories,id,bigint
+catalog_main_categories,name_en,USER-DEFINED
+catalog_main_categories,name_zh,text
+catalog_main_categories,created_at,timestamp with time zone
+catalog_main_categories,updated_at,timestamp with time zone
+catalog_product_types,id,bigint
+catalog_product_types,name_en,USER-DEFINED
+catalog_product_types,name_zh,text
+catalog_product_types,created_at,timestamp with time zone
+catalog_product_types,updated_at,timestamp with time zone
+products,id,uuid
+products,supplier_id,uuid
+products,main_category_id,bigint
+products,brand_id,bigint
+products,brand_subcategory_id,bigint
+products,product_type_id,bigint
+products,product_name,text
+products,gender,USER-DEFINED
+products,reference_code,text
+products,serial_number,text
+products,condition,USER-DEFINED
+products,retail_price,numeric
+products,currency,character
+products,color,text
+products,material,text
+products,hardware_details,text
+products,size_specs,text
+products,description,text
+products,quantity_total,integer
+products,quantity_available,integer
+products,status,USER-DEFINED
+products,created_at,timestamp with time zone
+products,updated_at,timestamp with time zone
+products,search_tsv,tsvector
+profiles,id,uuid
+profiles,status,USER-DEFINED
+profiles,role,USER-DEFINED
+profiles,full_name,text
+profiles,account_name,text
+profiles,email,text
+profiles,phone,text
+profiles,country,text
+profiles,preferred_language,text
+profiles,created_at,timestamp with time zone
+profiles,updated_at,timestamp with time zone
+reservations,id,uuid
+reservations,product_id,uuid
+reservations,customer_id,uuid
+reservations,supplier_id,uuid
+reservations,quantity,integer
+reservations,status,USER-DEFINED
+reservations,cancel_reason,text
+reservations,created_at,timestamp with time zone
+reservations,updated_at,timestamp with time zone
+reservations,confirmed_at,timestamp with time zone
+reservations,completed_at,timestamp with time zone

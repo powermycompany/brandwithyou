@@ -1,0 +1,17 @@
+/* Fix native <select> dropdown readability on dark UI */
+select.input {
+  color-scheme: dark;
+}
+
+select.input option {
+  background: #0b0b0c;
+  color: #f2f2f3;
+}
+
+/* Windows/Chromium sometimes paints the opened list white; enforce dark */
+select.input:focus option,
+select.input option:checked,
+select.input option:hover {
+  background: #151518;
+  color: #ffffff;
+}
