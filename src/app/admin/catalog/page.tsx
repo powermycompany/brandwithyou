@@ -179,8 +179,8 @@ export default async function AdminCatalogPage() {
   if (productsRes.error) throw new Error(productsRes.error.message);
   if (reservationsRes.error) throw new Error(reservationsRes.error.message);
 
-  const rows = (productsRes.data ?? []) as ProductRow[];
-  const reservationRows = (reservationsRes.data ?? []) as DemandRow[];
+  const rows = ((productsRes.data ?? []) as unknown) as ProductRow[];
+  const reservationRows = ((reservationsRes.data ?? []) as unknown) as DemandRow[];
 
   const publishedProductIds = rows.map((r) => r.id).filter(Boolean);
 
@@ -192,7 +192,7 @@ export default async function AdminCatalogPage() {
       .in("product_id", publishedProductIds);
 
     if (error) throw new Error(error.message);
-    livePricingRows = (data ?? []) as PricingRow[];
+    livePricingRows = ((data ?? []) as unknown) as PricingRow[];
   }
 
   const completedReservationRows = reservationRows.filter((r) => safeText(r.status) === "completed");
@@ -210,7 +210,7 @@ export default async function AdminCatalogPage() {
       .in("product_id", soldProductIds);
 
     if (error) throw new Error(error.message);
-    soldPricingRows = (data ?? []) as PricingRow[];
+    soldPricingRows = ((data ?? []) as unknown) as PricingRow[];
   }
 
   const brandSummary = summarizeCounts(rows.map((r) => safeText(r.catalog_brands?.name_en)));
@@ -230,18 +230,6 @@ export default async function AdminCatalogPage() {
   );
 
   const completedSalesCountrySummary = summarizeCompletedUnitsByCountry(completedReservationRows);
-
-  const totalAvailableUnits = rows.reduce(
-    (sum, r) => sum + Math.max(0, Number(r.quantity_available ?? 0)),
-    0
-  );
-
-  const completedSalesCount = completedReservationRows.length;
-  const productsSoldCount = soldProductIds.length;
-  const unitsSoldCount = completedReservationRows.reduce(
-    (sum, r) => sum + qtyOr1(r.quantity),
-    0
-  );
 
   return (
     <div className="row" style={{ flexDirection: "column", gap: 16 }}>
