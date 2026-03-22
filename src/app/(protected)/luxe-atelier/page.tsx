@@ -195,7 +195,7 @@ export default function LuxeAtelierPage() {
       return;
     }
 
-    const extras = (extrasRaw ?? []) as ProductExtraRow[];
+    const extras = ((extrasRaw ?? []) as unknown) as ProductExtraRow[];
     const extrasById = new Map<string, ProductExtraRow>();
     for (const r of extras) {
       extrasById.set(String(r.id), r);
