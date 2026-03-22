@@ -4,6 +4,46 @@ import { supplierConfirmReservation } from "@/server/actions/supplierConfirmRese
 import { supplierRejectReservation } from "@/server/actions/supplierRejectReservation";
 import { supplierSoldReservation } from "@/server/actions/supplierSoldReservation";
 
+type RelName = { name_en: string | null };
+type RelMaybeMany = RelName | RelName[] | null | undefined;
+
+type ProductRel = {
+  id: string;
+  product_name: string | null;
+  reference_code: string | null;
+  currency: string | null;
+  quantity_available: number | null;
+  brand_id: number | null;
+  main_category_id: number | null;
+  brand_subcategory_id: number | null;
+  product_type_id: number | null;
+  gender: string | null;
+  condition: string | null;
+  catalog_brands?: RelName | null;
+  catalog_main_categories?: RelName | null;
+  catalog_brand_subcategories?: RelName | null;
+  catalog_product_types?: RelName | null;
+};
+
+type RawProductRel = Omit<
+  ProductRel,
+  | "catalog_brands"
+  | "catalog_main_categories"
+  | "catalog_brand_subcategories"
+  | "catalog_product_types"
+> & {
+  catalog_brands?: RelMaybeMany;
+  catalog_main_categories?: RelMaybeMany;
+  catalog_brand_subcategories?: RelMaybeMany;
+  catalog_product_types?: RelMaybeMany;
+};
+
+type CustomerRel = {
+  account_name: string | null;
+  email: string | null;
+  country: string | null;
+} | null;
+
 type Row = {
   id: string;
   status: "requested" | "confirmed" | "completed" | "cancelled";
@@ -11,34 +51,12 @@ type Row = {
   quantity: number;
   product_id: string;
   customer_id: string;
+  products: ProductRel | null;
+  customer: CustomerRel;
+};
 
-  products:
-    | {
-        id: string;
-        product_name: string | null;
-        reference_code: string | null;
-        currency: string | null;
-        quantity_available: number | null;
-        brand_id: number | null;
-        main_category_id: number | null;
-        brand_subcategory_id: number | null;
-        product_type_id: number | null;
-        gender: string | null;
-        condition: string | null;
-        catalog_brands?: { name_en: string | null } | null;
-        catalog_main_categories?: { name_en: string | null } | null;
-        catalog_brand_subcategories?: { name_en: string | null } | null;
-        catalog_product_types?: { name_en: string | null } | null;
-      }
-    | null;
-
-  customer:
-    | {
-        account_name: string | null;
-        email: string | null;
-        country: string | null;
-      }
-    | null;
+type RawRow = Omit<Row, "products"> & {
+  products: RawProductRel | RawProductRel[] | null;
 };
 
 function d(s: string | null | undefined) {
@@ -62,6 +80,24 @@ function genderLabel(v: unknown) {
   if (x === "women" || x === "female" || x === "woman") return "Women";
   if (x === "unisex") return "Unisex";
   return "—";
+}
+
+function firstRel<T>(value: T | T[] | null | undefined): T | null {
+  if (Array.isArray(value)) return value[0] ?? null;
+  return value ?? null;
+}
+
+function normalizeProduct(value: RawProductRel | RawProductRel[] | null | undefined): ProductRel | null {
+  const p = firstRel(value);
+  if (!p) return null;
+
+  return {
+    ...p,
+    catalog_brands: firstRel(p.catalog_brands),
+    catalog_main_categories: firstRel(p.catalog_main_categories),
+    catalog_brand_subcategories: firstRel(p.catalog_brand_subcategories),
+    catalog_product_types: firstRel(p.catalog_product_types),
+  };
 }
 
 export default async function SupplierReservationsPage() {
@@ -106,7 +142,12 @@ export default async function SupplierReservationsPage() {
 
   if (error) throw new Error(error.message);
 
-  const rows = (data ?? []) as Row[];
+  const rawRows = ((data ?? []) as unknown) as RawRow[];
+  const rows: Row[] = rawRows.map((r) => ({
+    ...r,
+    products: normalizeProduct(r.products),
+  }));
+
   const newRequestCount = rows.filter((r) => r.status === "requested").length;
 
   const pricingByProductId = new Map<string, { currency: string; final_price: number | null }>();
@@ -138,6 +179,11 @@ export default async function SupplierReservationsPage() {
                 Requested reservations can be confirmed. Once confirmed, they may be rejected or marked as sold. Rejected
                 and sold reservations are final and cannot return to a previous status.
               </p>
+            </div>
+
+            <div className="badge">
+              <span>New requests</span>
+              <span className="kbd">{newRequestCount}</span>
             </div>
           </div>
         </div>
