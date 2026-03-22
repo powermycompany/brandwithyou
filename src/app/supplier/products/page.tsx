@@ -5,6 +5,9 @@ import { useEffect, useMemo, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { supplierDeleteProduct } from "@/server/actions/supplierDeleteProduct";
 
+type RelName = { name_en: string | null };
+type RelMaybeMany = RelName | RelName[] | null | undefined;
+
 type ProductRow = {
   id: string;
   product_name: string;
@@ -18,10 +21,23 @@ type ProductRow = {
   brand_id: number;
   brand_subcategory_id: number;
   product_type_id: number;
-  catalog_main_categories?: { name_en: string | null } | null;
-  catalog_brands?: { name_en: string | null } | null;
-  catalog_brand_subcategories?: { name_en: string | null } | null;
-  catalog_product_types?: { name_en: string | null } | null;
+  catalog_main_categories?: RelName | null;
+  catalog_brands?: RelName | null;
+  catalog_brand_subcategories?: RelName | null;
+  catalog_product_types?: RelName | null;
+};
+
+type RawProductRow = Omit<
+  ProductRow,
+  | "catalog_main_categories"
+  | "catalog_brands"
+  | "catalog_brand_subcategories"
+  | "catalog_product_types"
+> & {
+  catalog_main_categories?: RelMaybeMany;
+  catalog_brands?: RelMaybeMany;
+  catalog_brand_subcategories?: RelMaybeMany;
+  catalog_product_types?: RelMaybeMany;
 };
 
 type PricingRow = {
@@ -57,6 +73,11 @@ function money(ccy: string | null | undefined, n: number | null | undefined) {
 
 function safeText(v: unknown) {
   return String(v ?? "").trim();
+}
+
+function firstRel(v: RelMaybeMany): RelName | null {
+  if (Array.isArray(v)) return (v[0] ?? null) as RelName | null;
+  return (v ?? null) as RelName | null;
 }
 
 export default function SupplierProductsPage() {
@@ -107,7 +128,15 @@ export default function SupplierProductsPage() {
 
         if (productsErr) throw new Error(productsErr.message);
 
-        const products = (productsRaw ?? []) as ProductRow[];
+        const rawProducts = ((productsRaw ?? []) as unknown) as RawProductRow[];
+        const products: ProductRow[] = rawProducts.map((p) => ({
+          ...p,
+          catalog_main_categories: firstRel(p.catalog_main_categories),
+          catalog_brands: firstRel(p.catalog_brands),
+          catalog_brand_subcategories: firstRel(p.catalog_brand_subcategories),
+          catalog_product_types: firstRel(p.catalog_product_types),
+        }));
+
         const ids = products.map((p) => p.id);
 
         const pricingByProduct = new Map<string, PricingRow>();
@@ -120,8 +149,8 @@ export default function SupplierProductsPage() {
 
           if (pricingErr) throw new Error(pricingErr.message);
 
-          for (const p of (pricingRaw ?? []) as PricingRow[]) {
-            pricingByProduct.set(p.product_id, p);
+          for (const p of (((pricingRaw ?? []) as unknown) as PricingRow[])) {
+            pricingByProduct.set(String(p.product_id), p);
           }
         }
 
@@ -135,8 +164,10 @@ export default function SupplierProductsPage() {
 
           if (imgsErr) throw new Error(imgsErr.message);
 
-          for (const im of (imgsRaw ?? []) as ImgRow[]) {
-            if (!firstImgByProduct.has(im.product_id)) firstImgByProduct.set(im.product_id, im);
+          for (const im of (((imgsRaw ?? []) as unknown) as ImgRow[])) {
+            if (!firstImgByProduct.has(String(im.product_id))) {
+              firstImgByProduct.set(String(im.product_id), im);
+            }
           }
         }
 
