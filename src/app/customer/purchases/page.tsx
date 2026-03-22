@@ -105,7 +105,7 @@ export default async function CustomerPurchaseHistoryPage() {
 
   if (error) throw new Error(error.message);
 
-  const rows = (data ?? []) as Row[];
+  const rows = ((data ?? []) as unknown) as Row[];
 
   const pricingByProductId = new Map<
     string,
