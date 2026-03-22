@@ -10,6 +10,26 @@ type Msg = {
   attachments?: { storage_path: string; mime_type: string | null }[] | null;
 };
 
+type ThreadRow = {
+  id: string;
+  reservation_id: string | null;
+  product_id: string;
+  customer_id: string;
+  updated_at: string;
+  product:
+    | {
+        product_name: string | null;
+        reference_code: string | null;
+      }
+    | null;
+  customer:
+    | {
+        account_name: string | null;
+        email: string | null;
+      }
+    | null;
+};
+
 export default async function SupplierMessageThreadPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: threadId } = await params;
   const supabase = await supabaseServer();
@@ -19,7 +39,7 @@ export default async function SupplierMessageThreadPage({ params }: { params: Pr
   const uid = me.user?.id;
   if (!uid) throw new Error("Not authenticated");
 
-  const { data: thread, error: tErr } = await supabase
+  const { data: threadRaw, error: tErr } = await supabase
     .from("chat_threads")
     .select(
       `
@@ -32,6 +52,9 @@ export default async function SupplierMessageThreadPage({ params }: { params: Pr
     .maybeSingle();
 
   if (tErr) throw new Error(tErr.message);
+
+  const thread = (threadRaw as unknown as ThreadRow | null);
+
   if (!thread) throw new Error("Thread not found");
 
   const { data: msgsRaw, error: mErr } = await supabase
@@ -47,7 +70,7 @@ export default async function SupplierMessageThreadPage({ params }: { params: Pr
 
   if (mErr) throw new Error(mErr.message);
 
-  const msgs = (msgsRaw ?? []) as Msg[];
+  const msgs = ((msgsRaw ?? []) as unknown) as Msg[];
 
   await supabase.from("chat_thread_reads").upsert(
     { thread_id: threadId, user_id: uid, last_read_at: new Date().toISOString() },
