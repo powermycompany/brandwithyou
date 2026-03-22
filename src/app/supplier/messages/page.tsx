@@ -72,7 +72,7 @@ export default async function SupplierMessagesPage() {
   const uid = me.user?.id;
   if (!uid) throw new Error("Not authenticated");
 
-  const { data, error } = await supabase
+  const { data: rowsRaw, error } = await supabase
     .from("chat_threads")
     .select(
       `
@@ -106,7 +106,7 @@ export default async function SupplierMessagesPage() {
 
   if (error) throw new Error(error.message);
 
-  const rows = (data ?? []) as ThreadRow[];
+  const rows = ((rowsRaw ?? []) as unknown) as ThreadRow[];
   const threadIds = rows.map((t) => t.id).filter(Boolean);
 
   const readByThreadId = new Map<string, string | null>();
@@ -120,7 +120,7 @@ export default async function SupplierMessagesPage() {
 
     if (readsErr) throw new Error(readsErr.message);
 
-    for (const r of (readsRaw ?? []) as ThreadReadRow[]) {
+    for (const r of (((readsRaw ?? []) as unknown) as ThreadReadRow[])) {
       readByThreadId.set(String(r.thread_id), r.last_read_at ?? null);
     }
   }
@@ -131,7 +131,9 @@ export default async function SupplierMessagesPage() {
     const pid = String(t.product_id);
     if (!pid || pricingByProductId.has(pid)) continue;
 
-    const { data: p } = await supabase.rpc("get_market_product_pricing", { p_product_id: pid }).maybeSingle();
+    const { data: p } = await supabase
+      .rpc("get_market_product_pricing", { p_product_id: pid })
+      .maybeSingle();
 
     pricingByProductId.set(pid, {
       currency: String((p as any)?.currency ?? t.product?.currency ?? "USD").toUpperCase(),
@@ -165,6 +167,10 @@ export default async function SupplierMessagesPage() {
               <Link className="btn" href="/supplier/reservations">
                 Reservations
               </Link>
+              <div className="badge">
+                <span>Unread threads</span>
+                <span className="kbd">{newMessageCount}</span>
+              </div>
             </div>
           </div>
         </div>
