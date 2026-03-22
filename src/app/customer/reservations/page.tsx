@@ -86,7 +86,7 @@ export default async function CustomerReservationsPage() {
 
   if (error) throw new Error(error.message);
 
-  const rows = (rowsRaw ?? []) as Row[];
+  const rows = ((rowsRaw ?? []) as unknown) as Row[];
 
   const pricingByProductId = new Map<string, { currency: string; final_price: number | null }>();
 
@@ -111,9 +111,9 @@ export default async function CustomerReservationsPage() {
         <div className="cardInner">
           <h1 className="h1">My reservations</h1>
           <p className="p">
-            A reservation is a request to purchase, not product sold. Suppliers may accept or decline reservations at their own discretion. 
-            A chat opens automatically once a supplier confirms your reservation. The supplier may use the message thread to request delivery 
-            preferences, payment arrangements, shipping address details, or other necessary information. Once the product has been sold to 
+            A reservation is a request to purchase, not product sold. Suppliers may accept or decline reservations at their own discretion.
+            A chat opens automatically once a supplier confirms your reservation. The supplier may use the message thread to request delivery
+            preferences, payment arrangements, shipping address details, or other necessary information. Once the product has been sold to
             you, it will appear in Purchase history, where you can view completed purchases.
           </p>
         </div>
