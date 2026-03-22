@@ -47,7 +47,7 @@ export default async function CustomerMessageThreadPage({ params }: { params: Pr
 
   if (mErr) throw new Error(mErr.message);
 
-  const msgs = (msgsRaw ?? []) as Msg[];
+  const msgs = ((msgsRaw ?? []) as unknown) as Msg[];
 
   await supabase.from("chat_thread_reads").upsert(
     { thread_id: threadId, user_id: uid, last_read_at: new Date().toISOString() },
