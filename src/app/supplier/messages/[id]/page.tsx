@@ -10,7 +10,7 @@ type Msg = {
   attachments?: { storage_path: string; mime_type: string | null }[] | null;
 };
 
-export default async function SupplierMessageThreadPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function CustomerMessageThreadPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: threadId } = await params;
   const supabase = await supabaseServer();
 
@@ -23,9 +23,9 @@ export default async function SupplierMessageThreadPage({ params }: { params: Pr
     .from("chat_threads")
     .select(
       `
-      id,reservation_id,product_id,customer_id,updated_at,
+      id,reservation_id,product_id,supplier_id,updated_at,
       product:products!chat_threads_product_id_fkey(product_name,reference_code),
-      customer:profiles!chat_threads_customer_id_fkey(account_name,email)
+      supplier:profiles!chat_threads_supplier_id_fkey(account_name,email)
     `.trim()
     )
     .eq("id", threadId)
@@ -47,7 +47,7 @@ export default async function SupplierMessageThreadPage({ params }: { params: Pr
 
   if (mErr) throw new Error(mErr.message);
 
-  const msgs = (msgsRaw ?? []) as Msg[];
+  const msgs = ((msgsRaw ?? []) as unknown) as Msg[];
 
   await supabase.from("chat_thread_reads").upsert(
     { thread_id: threadId, user_id: uid, last_read_at: new Date().toISOString() },
@@ -74,14 +74,14 @@ export default async function SupplierMessageThreadPage({ params }: { params: Pr
                 {thread.product?.product_name ?? "Product"}
               </div>
               <div className="p">
-                {thread.product?.reference_code ?? thread.product_id} · Customer:{" "}
-                {thread.customer?.account_name ?? thread.customer_id}
-                {thread.customer?.email ? ` · ${thread.customer.email}` : ""}
+                {thread.product?.reference_code ?? thread.product_id} · Supplier:{" "}
+                {thread.supplier?.account_name ?? thread.supplier_id}
+                {thread.supplier?.email ? ` · ${thread.supplier.email}` : ""}
               </div>
             </div>
             <div className="row" style={{ gap: 10 }}>
-              <Link className="btn" href="/supplier/messages">Back</Link>
-              <Link className="btn" href="/supplier/reservations">Reservations</Link>
+              <Link className="btn" href="/customer/messages">Back</Link>
+              <Link className="btn" href="/customer/reservations">My reservations</Link>
             </div>
           </div>
         </div>
