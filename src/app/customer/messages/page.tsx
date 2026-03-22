@@ -87,7 +87,7 @@ export default async function CustomerMessagesPage() {
 
   if (error) throw new Error(error.message);
 
-  const rows = (data ?? []) as ThreadRow[];
+  const rows = ((data ?? []) as unknown) as ThreadRow[];
   const threadIds = rows.map((t) => t.id).filter(Boolean);
 
   const readByThreadId = new Map<string, string | null>();
@@ -101,7 +101,7 @@ export default async function CustomerMessagesPage() {
 
     if (readsErr) throw new Error(readsErr.message);
 
-    for (const r of (readsRaw ?? []) as ThreadReadRow[]) {
+    for (const r of (((readsRaw ?? []) as unknown) as ThreadReadRow[])) {
       readByThreadId.set(String(r.thread_id), r.last_read_at ?? null);
     }
   }
@@ -147,6 +147,10 @@ export default async function CustomerMessagesPage() {
               <Link className="btn" href="/customer/reservations">
                 My reservations
               </Link>
+              <div className="badge">
+                <span>Unread threads</span>
+                <span className="kbd">{newMessageCount}</span>
+              </div>
             </div>
           </div>
         </div>
