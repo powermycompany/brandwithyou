@@ -2,6 +2,26 @@ import Link from "next/link";
 import { supabaseServer } from "@/lib/supabase/server";
 import ThreadComposer from "@/components/chat/ThreadComposer";
 
+type ThreadRow = {
+  id: string;
+  reservation_id: string | null;
+  product_id: string;
+  supplier_id: string;
+  updated_at: string | null;
+  product:
+    | {
+        product_name: string | null;
+        reference_code: string | null;
+      }
+    | null;
+  supplier:
+    | {
+        account_name: string | null;
+        email: string | null;
+      }
+    | null;
+};
+
 type Msg = {
   id: string;
   sender_id: string;
@@ -19,7 +39,7 @@ export default async function CustomerMessageThreadPage({ params }: { params: Pr
   const uid = me.user?.id;
   if (!uid) throw new Error("Not authenticated");
 
-  const { data: thread, error: tErr } = await supabase
+  const { data: threadRaw, error: tErr } = await supabase
     .from("chat_threads")
     .select(
       `
@@ -32,6 +52,8 @@ export default async function CustomerMessageThreadPage({ params }: { params: Pr
     .maybeSingle();
 
   if (tErr) throw new Error(tErr.message);
+
+  const thread = (threadRaw as unknown) as ThreadRow | null;
   if (!thread) throw new Error("Thread not found");
 
   const { data: msgsRaw, error: mErr } = await supabase
