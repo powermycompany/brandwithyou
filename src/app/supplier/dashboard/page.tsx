@@ -142,7 +142,7 @@ export default async function SupplierDashboardPage() {
 
   if (soldErr) throw new Error(soldErr.message);
 
-  const soldRows = (soldRowsRaw ?? []) as SoldRow[];
+  const soldRows = ((soldRowsRaw ?? []) as unknown) as SoldRow[];
 
   const { count: soldHistoryTotal, error: soldCountErr } = await supabase
     .from("reservations")
