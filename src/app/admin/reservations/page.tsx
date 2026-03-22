@@ -180,7 +180,7 @@ export default async function AdminReservationsPage() {
 
   if (error) throw new Error(error.message);
 
-  const rows = (data ?? []) as Row[];
+  const rows = ((data ?? []) as unknown) as Row[];
 
   const productIds = Array.from(new Set(rows.map((r) => String(r.product_id)).filter(Boolean)));
 
@@ -194,7 +194,7 @@ export default async function AdminReservationsPage() {
 
     if (pricingErr) throw new Error(pricingErr.message);
 
-    for (const p of (pricingRows ?? []) as PricingRow[]) {
+    for (const p of (((pricingRows ?? []) as unknown) as PricingRow[])) {
       pricingByProductId.set(String(p.product_id), {
         currency: String(p.currency ?? "USD").toUpperCase(),
         unit_price:
