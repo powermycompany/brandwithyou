@@ -436,7 +436,7 @@ export default function LuxeAtelierPage() {
       >
         <div className="cardInner" style={{ padding: 24 }}>
           <div
-            className="row"
+            className="row luxeHeroRow"
             style={{ justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}
           >
             <div style={{ maxWidth: 860 }}>
@@ -463,8 +463,8 @@ export default function LuxeAtelierPage() {
               runSearch(q);
             }}
           >
-            <div className="row" style={{ gap: 12, alignItems: "center", flexWrap: "nowrap" }}>
-              <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+            <div className="row luxeSearchRow" style={{ gap: 12, alignItems: "center", flexWrap: "nowrap" }}>
+              <div className="luxeSearchInputWrap" style={{ flex: "1 1 auto", minWidth: 0 }}>
                 <input
                   className="input"
                   type="text"
@@ -485,7 +485,7 @@ export default function LuxeAtelierPage() {
               </div>
 
               <button
-                className="btn btnPrimary"
+                className="btn btnPrimary luxeSearchButton"
                 type="submit"
                 style={{
                   height: 48,
@@ -512,8 +512,8 @@ export default function LuxeAtelierPage() {
             }}
           >
             <div className="cardInner" style={{ padding: 16 }}>
-              <div className="row" style={{ gap: 10, flexWrap: "wrap", alignItems: "end" }}>
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+              <div className="row luxeFiltersRow" style={{ gap: 10, flexWrap: "wrap", alignItems: "end" }}>
+                <div className="luxeFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Brand</div>
                   <select className="input" value={brandFilter} onChange={(e) => setBrandFilter(e.target.value)}>
                     <option value="all">All brands</option>
@@ -523,7 +523,7 @@ export default function LuxeAtelierPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+                <div className="luxeFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Category</div>
                   <select className="input" value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                     <option value="all">All categories</option>
@@ -533,7 +533,7 @@ export default function LuxeAtelierPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+                <div className="luxeFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Product type</div>
                   <select className="input" value={productTypeFilter} onChange={(e) => setProductTypeFilter(e.target.value)}>
                     <option value="all">All product types</option>
@@ -543,7 +543,7 @@ export default function LuxeAtelierPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 130, flex: "1 1 130px" }}>
+                <div className="luxeFilterItem" style={{ minWidth: 130, flex: "1 1 130px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Gender</div>
                   <select
                     className="input"
@@ -557,7 +557,7 @@ export default function LuxeAtelierPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 130, flex: "1 1 130px" }}>
+                <div className="luxeFilterItem" style={{ minWidth: 130, flex: "1 1 130px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Condition</div>
                   <select className="input" value={conditionFilter} onChange={(e) => setConditionFilter(e.target.value)}>
                     <option value="all">All conditions</option>
@@ -567,7 +567,7 @@ export default function LuxeAtelierPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 155, flex: "1 1 155px" }}>
+                <div className="luxeFilterItem" style={{ minWidth: 155, flex: "1 1 155px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Supplier country</div>
                   <select className="input" value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)}>
                     <option value="all">All supplier countries</option>
@@ -577,7 +577,7 @@ export default function LuxeAtelierPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+                <div className="luxeFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Sort</div>
                   <select className="input" value={sortBy} onChange={(e) => setSortBy(e.target.value as SortKey)}>
                     <option value="newest">Newest listed</option>
@@ -589,7 +589,7 @@ export default function LuxeAtelierPage() {
                 </div>
 
                 <button
-                  className="btn"
+                  className="btn luxeClearButton"
                   type="button"
                   onClick={clearFilters}
                   style={{
@@ -655,8 +655,9 @@ export default function LuxeAtelierPage() {
               }}
             >
               <div className="cardInner" style={{ padding: 18 }}>
-                <div className="row" style={{ gap: 18, alignItems: "stretch", flexWrap: "nowrap" }}>
+                <div className="row luxeProductRow" style={{ gap: 18, alignItems: "stretch", flexWrap: "nowrap" }}>
                   <div
+                    className="luxeProductMedia"
                     style={{
                       width: 154,
                       minWidth: 154,
@@ -683,7 +684,7 @@ export default function LuxeAtelierPage() {
 
                   <div style={{ flex: "1 1 auto", minWidth: 0 }}>
                     <div
-                      className="row"
+                      className="row luxeTitlePriceRow"
                       style={{
                         justifyContent: "space-between",
                         gap: 16,
@@ -694,6 +695,7 @@ export default function LuxeAtelierPage() {
                       <div style={{ minWidth: 0, flex: "1 1 auto" }}>
                         <Link
                           href={`/product/${r.id}`}
+                          className="luxeProductLink"
                           style={{
                             display: "inline-block",
                             fontWeight: 650,
@@ -707,7 +709,7 @@ export default function LuxeAtelierPage() {
                         </Link>
                       </div>
 
-                      <div style={{ textAlign: "right", flex: "0 0 auto", minWidth: 170 }}>
+                      <div className="luxePriceBlock" style={{ textAlign: "right", flex: "0 0 auto", minWidth: 170 }}>
                         <div
                           style={{
                             fontWeight: 700,
@@ -768,7 +770,7 @@ export default function LuxeAtelierPage() {
                     <div className="spacer" style={{ height: 14 }} />
 
                     <div
-                      className="row"
+                      className="row luxeActionsRow"
                       style={{
                         justifyContent: "space-between",
                         alignItems: "center",
@@ -777,7 +779,7 @@ export default function LuxeAtelierPage() {
                       }}
                     >
                       <Link
-                        className="btn btnPrimary"
+                        className="btn btnPrimary luxeActionButton"
                         href={`/product/${r.id}`}
                         style={{
                           height: 42,
@@ -793,7 +795,7 @@ export default function LuxeAtelierPage() {
                       {canReserve ? (
                         <form
                           action={requestReservation}
-                          className="row"
+                          className="row luxeReserveForm"
                           style={{
                             alignItems: "center",
                             gap: 8,
@@ -804,7 +806,7 @@ export default function LuxeAtelierPage() {
                           <input type="hidden" name="product_id" value={String(r.id)} />
 
                           <select
-                            className="input"
+                            className="input luxeQtySelect"
                             name="quantity"
                             defaultValue={String(alreadyReserved ? reservedQty : 1)}
                             required
@@ -824,7 +826,7 @@ export default function LuxeAtelierPage() {
                           </select>
 
                           <button
-                            className="btn btnPrimary"
+                            className="btn btnPrimary luxeReserveButton"
                             type="submit"
                             style={{
                               height: 42,
@@ -838,7 +840,7 @@ export default function LuxeAtelierPage() {
                           </button>
                         </form>
                       ) : (
-                        <div className="badge" style={{ marginLeft: "auto" }}>
+                        <div className="badge luxeReserveBadge" style={{ marginLeft: "auto" }}>
                           <span>Reserve</span>
                           <span className="kbd">
                             {!profile

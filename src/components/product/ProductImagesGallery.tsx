@@ -169,10 +169,11 @@ export default function ProductImagesGallery({
       {rows.length === 0 ? (
         <p className="p">No images yet.</p>
       ) : (
-        <div className="row" style={{ flexWrap: "wrap", gap: 12 }}>
+        <div className="row productGalleryGrid" style={{ flexWrap: "wrap", gap: 12 }}>
           {rows.map((r, idx) => (
             <div
               key={r.id}
+              className="productGalleryCard"
               style={{
                 width: 180,
                 borderRadius: 18,
@@ -184,6 +185,7 @@ export default function ProductImagesGallery({
               <button
                 type="button"
                 onClick={() => openImage(idx)}
+                className="productGalleryThumb"
                 style={{
                   width: "100%",
                   height: 120,
@@ -225,6 +227,7 @@ export default function ProductImagesGallery({
 
       {openIndex !== null && currentUrl ? (
         <div
+          className="productGalleryModal"
           onClick={() => setOpenIndex(null)}
           style={{
             position: "fixed",
@@ -238,6 +241,7 @@ export default function ProductImagesGallery({
           }}
         >
           <div
+            className="productGalleryModalInner"
             onClick={(e) => e.stopPropagation()}
             style={{
               position: "relative",
@@ -255,6 +259,7 @@ export default function ProductImagesGallery({
           >
             <button
               type="button"
+              className="productGalleryClose"
               onClick={() => setOpenIndex(null)}
               style={{
                 position: "absolute",
@@ -279,6 +284,7 @@ export default function ProductImagesGallery({
               <>
                 <button
                   type="button"
+                  className="productGalleryPrev"
                   onClick={showPrev}
                   style={{
                     position: "absolute",
@@ -303,6 +309,7 @@ export default function ProductImagesGallery({
 
                 <button
                   type="button"
+                  className="productGalleryNext"
                   onClick={showNext}
                   style={{
                     position: "absolute",
@@ -340,6 +347,7 @@ export default function ProductImagesGallery({
             />
 
             <div
+              className="productGalleryCounter"
               style={{
                 position: "absolute",
                 bottom: 14,

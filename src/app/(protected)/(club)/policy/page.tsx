@@ -9,7 +9,7 @@ export default function PolicyPage() {
           WebkitBackdropFilter: "blur(18px)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
           <h1 className="h1" style={{ marginBottom: 10 }}>
             Policy
           </h1>
@@ -38,8 +38,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>1. Trading Position</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>1. Trading Position</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Trading and transaction activity conducted through Brandwithyou remains a direct matter between supplier and
             customer. The platform does not act as principal in the sale, does not purchase items into its own account,
@@ -63,8 +63,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>2. Platform Role</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>2. Platform Role</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Brandwithyou provides a curated and controlled environment for listing presentation, reservation flow,
             communication, authentication review, and issue handling. Its function is to support a professional luxury
@@ -88,8 +88,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>3. Ownership and Title</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>3. Ownership and Title</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Brandwithyou does not acquire title to, ownership of, or possessory rights over products listed on the
             platform merely by reason of listing, reservation, authentication review, or presentation. Ownership
@@ -113,8 +113,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>4. Authentication Responsibility</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>4. Authentication Responsibility</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             While Brandwithyou is not the contracting supplier, it does maintain responsibility for the integrity of the
             platform’s authentication standards. Products supported within the platform environment are expected to
@@ -140,8 +140,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>5. Reservation Flow and Marketplace Procedure</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>5. Reservation Flow and Marketplace Procedure</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             When a customer reserves a product listed in Luxe Atelier, the reservation generates a notification to the
             supplier. The supplier may then either confirm or reject the reservation in accordance with availability,
@@ -169,8 +169,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>6. Delivery, Payment, and Transaction Terms</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>6. Delivery, Payment, and Transaction Terms</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Delivery method is decided directly between the supplier and the customer. This includes, without
             limitation, shipment method, hand-delivery, collection, pickup arrangements, delivery address, and related
@@ -194,8 +194,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>7. Pricing Conduct and Reservation Discipline</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>7. Pricing Conduct and Reservation Discipline</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Customers are expected to approach reservations seriously and respectfully. A reservation is intended to
             signal genuine purchase interest within the Brandwithyou environment. Customers should refrain from using
@@ -218,8 +218,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>8. Conduct, Access, and Platform Rights</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>8. Conduct, Access, and Platform Rights</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Brandwithyou reserves the right to suspend, restrict, or withdraw access to the platform at any time where a
             supplier or customer fails to uphold the standards, requirements, rights, and expectations of the platform.
@@ -245,8 +245,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>9. Confidentiality and Contact Restrictions</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>9. Confidentiality and Contact Restrictions</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Information disclosed within the Brandwithyou environment, including supplier details, customer details,
             commercial context, and transaction-related communications, is expected to be handled with discretion.
@@ -270,8 +270,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>10. Secondary Market Activity</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>10. Secondary Market Activity</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Brandwithyou does not prohibit a customer from reselling a product to other markets after a legitimate
             transaction has been completed. However, such secondary activity does not alter the standards of conduct,
@@ -290,8 +290,8 @@ export default function PolicyPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>11. Interpretation</h2>
+        <div className="cardInner policyCardInner" style={{ padding: 28 }}>
+          <h2 className="policySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>11. Interpretation</h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             This page is intended to communicate the operating position of Brandwithyou in a clear and structured manner
             for participants on the platform. It should be read as a statement of platform standards and role allocation

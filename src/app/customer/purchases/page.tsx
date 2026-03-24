@@ -140,21 +140,21 @@ export default async function CustomerPurchaseHistoryPage() {
       <div className="card">
         <div className="cardInner">
           <div
-            className="row"
+            className="row purchaseHistoryHeaderRow"
             style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}
           >
-            <div>
+            <div className="purchaseHistoryHeaderInfo">
               <h1 className="h1">Purchase history</h1>
               <p className="p">
                 View your completed purchases, confirmed transaction values, and the supplier
                 details connected to each completed order.
               </p>
             </div>
-            <div className="row" style={{ gap: 10 }}>
-              <Link className="btn" href="/customer/reservations">
+            <div className="row purchaseHistoryHeaderActions" style={{ gap: 10 }}>
+              <Link className="btn purchaseHistoryHeaderButton" href="/customer/reservations">
                 My reservations
               </Link>
-              <Link className="btn" href="/luxe-atelier">
+              <Link className="btn purchaseHistoryHeaderButton" href="/luxe-atelier">
                 Luxe Atelier
               </Link>
             </div>
@@ -204,11 +204,11 @@ export default async function CustomerPurchaseHistoryPage() {
               <div key={r.id} className="card">
                 <div className="cardInner">
                   <div
-                    className="row"
+                    className="row purchaseHistoryRow"
                     style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}
                   >
-                    <div style={{ minWidth: 260, flex: "1 1 auto" }}>
-                      <div style={{ fontWeight: 650 }}>{name}</div>
+                    <div className="purchaseHistoryInfo" style={{ minWidth: 260, flex: "1 1 auto" }}>
+                      <div className="purchaseHistoryTitle" style={{ fontWeight: 650 }}>{name}</div>
                       <div className="p">Supplier: {supplierName}</div>
                       <div className="p">Email: {supplierEmail}</div>
                       <div className="p">Purchase date: {d(soldAt)}</div>
@@ -254,7 +254,7 @@ export default async function CustomerPurchaseHistoryPage() {
                     </div>
 
                     <div
-                      className="row"
+                      className="row purchaseHistoryTotals"
                       style={{
                         alignItems: "center",
                         gap: 10,

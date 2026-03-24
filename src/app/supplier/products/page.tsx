@@ -353,7 +353,7 @@ export default function SupplierProductsPage() {
       >
         <div className="cardInner" style={{ padding: 24 }}>
           <div
-            className="row"
+            className="row supplierProductsHeroRow"
             style={{ justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}
           >
             <div style={{ maxWidth: 860 }}>
@@ -366,12 +366,12 @@ export default function SupplierProductsPage() {
               </p>
             </div>
 
-            <div className="row" style={{ gap: 10, alignItems: "center" }}>
+            <div className="row supplierProductsHeroActions" style={{ gap: 10, alignItems: "center" }}>
               <div className="badge" style={{ background: "rgba(255,255,255,0.88)" }}>
                 <span>Results</span>
                 <span className="kbd">{filteredRows.length}</span>
               </div>
-              <Link className="btn btnPrimary" href="/supplier/products/new">
+              <Link className="btn btnPrimary supplierProductsHeroButton" href="/supplier/products/new">
                 New product
               </Link>
             </div>
@@ -379,8 +379,8 @@ export default function SupplierProductsPage() {
 
           <div className="spacer" style={{ height: 14 }} />
 
-          <div className="row" style={{ gap: 12, alignItems: "center", flexWrap: "nowrap" }}>
-            <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+          <div className="row supplierProductsSearchRow" style={{ gap: 12, alignItems: "center", flexWrap: "nowrap" }}>
+            <div className="supplierProductsSearchInputWrap" style={{ flex: "1 1 auto", minWidth: 0 }}>
               <input
                 className="input"
                 value={q}
@@ -410,8 +410,8 @@ export default function SupplierProductsPage() {
             }}
           >
             <div className="cardInner" style={{ padding: 16 }}>
-              <div className="row" style={{ gap: 10, flexWrap: "wrap", alignItems: "end" }}>
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+              <div className="row supplierProductsFiltersRow" style={{ gap: 10, flexWrap: "wrap", alignItems: "end" }}>
+                <div className="supplierProductsFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Status</div>
                   <select className="input" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                     <option value="all">All statuses</option>
@@ -420,7 +420,7 @@ export default function SupplierProductsPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+                <div className="supplierProductsFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Brand</div>
                   <select className="input" value={brandFilter} onChange={(e) => setBrandFilter(e.target.value)}>
                     <option value="all">All brands</option>
@@ -430,7 +430,7 @@ export default function SupplierProductsPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+                <div className="supplierProductsFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Category</div>
                   <select className="input" value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                     <option value="all">All categories</option>
@@ -440,7 +440,7 @@ export default function SupplierProductsPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+                <div className="supplierProductsFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Product type</div>
                   <select className="input" value={productTypeFilter} onChange={(e) => setProductTypeFilter(e.target.value)}>
                     <option value="all">All product types</option>
@@ -450,7 +450,7 @@ export default function SupplierProductsPage() {
                   </select>
                 </div>
 
-                <div style={{ minWidth: 150, flex: "1 1 150px" }}>
+                <div className="supplierProductsFilterItem" style={{ minWidth: 150, flex: "1 1 150px" }}>
                   <div className="p" style={{ marginBottom: 6 }}>Sort</div>
                   <select className="input" value={sortBy} onChange={(e) => setSortBy(e.target.value as SortKey)}>
                     <option value="newest">Newest listed</option>
@@ -462,7 +462,7 @@ export default function SupplierProductsPage() {
                 </div>
 
                 <button
-                  className="btn"
+                  className="btn supplierProductsClearButton"
                   type="button"
                   onClick={clearFilters}
                   style={{
@@ -532,8 +532,9 @@ export default function SupplierProductsPage() {
               }}
             >
               <div className="cardInner" style={{ padding: 18 }}>
-                <div className="row" style={{ gap: 18, alignItems: "stretch", flexWrap: "nowrap" }}>
+                <div className="row supplierProductsCardRow" style={{ gap: 18, alignItems: "stretch", flexWrap: "nowrap" }}>
                   <div
+                    className="supplierProductsCardMedia"
                     style={{
                       width: 154,
                       minWidth: 154,
@@ -561,7 +562,7 @@ export default function SupplierProductsPage() {
 
                   <div style={{ flex: "1 1 auto", minWidth: 0 }}>
                     <div
-                      className="row"
+                      className="row supplierProductsTitleRow"
                       style={{
                         justifyContent: "space-between",
                         gap: 16,
@@ -572,6 +573,7 @@ export default function SupplierProductsPage() {
                       <div style={{ minWidth: 0, flex: "1 1 auto" }}>
                         <Link
                           href={`/supplier/products/${p.id}`}
+                          className="supplierProductsTitle"
                           style={{
                             display: "inline-block",
                             fontWeight: 650,
@@ -635,7 +637,7 @@ export default function SupplierProductsPage() {
                     <div className="spacer" style={{ height: 14 }} />
 
                     <div
-                      className="row"
+                      className="row supplierProductsActionsRow"
                       style={{
                         justifyContent: "space-between",
                         alignItems: "center",
@@ -643,9 +645,9 @@ export default function SupplierProductsPage() {
                         flexWrap: "wrap",
                       }}
                     >
-                      <div className="row" style={{ gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+                      <div className="row supplierProductsActionsGroup" style={{ gap: 10, alignItems: "center", flexWrap: "wrap" }}>
                         <Link
-                          className="btn btnPrimary"
+                          className="btn btnPrimary supplierProductsActionButton"
                           href={`/supplier/products/${p.id}`}
                           style={{
                             height: 42,
@@ -659,7 +661,7 @@ export default function SupplierProductsPage() {
                         </Link>
 
                         <Link
-                          className="btn"
+                          className="btn supplierProductsActionButton"
                           href={`/supplier/products/new?copy_from=${encodeURIComponent(p.id)}`}
                           style={{
                             height: 42,
@@ -679,7 +681,7 @@ export default function SupplierProductsPage() {
                           <>
                             {p.status === "published" ? (
                               <button
-                                className="btn"
+                                className="btn supplierProductsActionButton"
                                 type="button"
                                 disabled={isStatusBusy}
                                 onClick={() => handleSetStatus(p.id, "draft")}
@@ -689,7 +691,7 @@ export default function SupplierProductsPage() {
                               </button>
                             ) : (
                               <button
-                                className="btn btnPrimary"
+                                className="btn btnPrimary supplierProductsActionButton"
                                 type="button"
                                 disabled={isStatusBusy}
                                 onClick={() => handleSetStatus(p.id, "published")}
@@ -705,10 +707,10 @@ export default function SupplierProductsPage() {
                               </button>
                             )}
 
-                            <form action={supplierDeleteProduct}>
+                            <form className="supplierProductsDeleteForm" action={supplierDeleteProduct}>
                               <input type="hidden" name="product_id" value={p.id} />
                               <button
-                                className="btn"
+                                className="btn supplierProductsActionButton"
                                 type="submit"
                                 style={{ height: 42, borderRadius: 14, padding: "0 16px" }}
                               >

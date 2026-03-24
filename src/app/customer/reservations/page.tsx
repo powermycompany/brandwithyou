@@ -156,11 +156,16 @@ export default async function CustomerReservationsPage() {
               <div key={r.id} className="card">
                 <div className="cardInner">
                   <div
-                    className="row"
+                    className="row customerReservationRow"
                     style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}
                   >
-                    <div style={{ minWidth: 260, flex: "1 1 auto" }}>
-                      <div style={{ fontWeight: 650 }}>{productName}</div>
+                    <div className="customerReservationInfo" style={{ minWidth: 260, flex: "1 1 auto" }}>
+                      <div
+                        className="customerReservationTitle"
+                        style={{ fontWeight: 650 }}
+                      >
+                        {productName}
+                      </div>
                       <div className="p">Reserved: {d(r.created_at)}</div>
 
                       <div className="spacer" style={{ height: 8 }} />
@@ -200,7 +205,7 @@ export default async function CustomerReservationsPage() {
                     </div>
 
                     <div
-                      className="row"
+                      className="row customerReservationActions"
                       style={{
                         gap: 10,
                         alignItems: "center",
@@ -225,14 +230,14 @@ export default async function CustomerReservationsPage() {
                         <span className="kbd">{r.status}</span>
                       </div>
 
-                      <Link className="btn btnPrimary" href={`/product/${r.product_id}`}>
+                      <Link className="btn btnPrimary customerReservationActionButton" href={`/product/${r.product_id}`}>
                         View product
                       </Link>
 
                       {canCancel ? (
-                        <form action={customerCancelReservation}>
+                        <form className="customerReservationCancelForm" action={customerCancelReservation}>
                           <input type="hidden" name="reservation_id" value={r.id} />
-                          <button className="btn" type="submit">
+                          <button className="btn customerReservationActionButton" type="submit">
                             Cancel reservation
                           </button>
                         </form>

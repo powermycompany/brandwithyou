@@ -120,10 +120,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
 
   return (
     <div className="row" style={{ flexDirection: "column", gap: 16 }}>
-      <div className="row" style={{ justifyContent: "flex-end" }}>
+      <div className="row productDetailBackRow" style={{ justifyContent: "flex-end" }}>
         <Link
           href="/luxe-atelier"
-          className="btn"
+          className="btn productDetailBackButton"
           style={{
             height: 42,
             borderRadius: 14,
@@ -150,7 +150,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
       >
         <div className="cardInner" style={{ padding: 20 }}>
           <div
-            className="row"
+            className="row productDetailHeaderRow"
             style={{
               justifyContent: "space-between",
               alignItems: "flex-start",
@@ -158,7 +158,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
               flexWrap: "wrap",
             }}
           >
-            <div style={{ minWidth: 0, flex: "1 1 420px" }}>
+            <div className="productDetailTitleWrap" style={{ minWidth: 0, flex: "1 1 420px" }}>
               <h1
                 className="h1"
                 style={{
@@ -172,7 +172,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
               </h1>
             </div>
 
-            <div style={{ textAlign: "right", flex: "0 0 auto", minWidth: 160 }}>
+            <div className="productDetailPriceWrap" style={{ textAlign: "right", flex: "0 0 auto", minWidth: 160 }}>
               <div
                 style={{
                   fontWeight: 700,
@@ -297,7 +297,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
           <div className="spacer" style={{ height: 16 }} />
 
           <div
-            className="row"
+            className="row productDetailActionRow"
             style={{
               justifyContent: "space-between",
               alignItems: "center",
@@ -313,7 +313,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
             {isActiveCustomer && isListed && avail > 0 ? (
               <form
                 action={requestReservation}
-                className="row"
+                className="row productDetailReserveForm"
                 style={{
                   alignItems: "center",
                   gap: 8,
@@ -324,7 +324,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
                 <input type="hidden" name="product_id" value={(pr as any).id} />
 
                 <select
-                  className="input"
+                  className="input productDetailQty"
                   name="quantity"
                   defaultValue="1"
                   required
@@ -344,7 +344,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
                 </select>
 
                 <button
-                  className="btn btnPrimary"
+                  className="btn btnPrimary productDetailReserveButton"
                   type="submit"
                   style={{
                     height: 42,
@@ -358,7 +358,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<Pa
                 </button>
               </form>
             ) : (
-              <div className="badge" style={{ marginLeft: "auto" }}>
+              <div className="badge productDetailReserveBadge" style={{ marginLeft: "auto" }}>
                 <span>Reserve</span>
                 <span className="kbd">
                   {!uid

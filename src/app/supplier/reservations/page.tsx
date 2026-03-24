@@ -171,7 +171,7 @@ export default async function SupplierReservationsPage() {
     <div className="row" style={{ flexDirection: "column", gap: 14 }}>
       <div className="card">
         <div className="cardInner">
-          <div className="row" style={{ justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <div className="row supplierReservationsHeaderRow" style={{ justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             <div>
               <h1 className="h1">Reservations</h1>
               <p className="p">
@@ -244,12 +244,12 @@ export default async function SupplierReservationsPage() {
               >
                 <div className="cardInner">
                   <div
-                    className="row"
+                    className="row supplierReservationsCardRow"
                     style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}
                   >
-                    <div style={{ minWidth: 260, flex: "1 1 auto" }}>
+                    <div className="supplierReservationsInfo" style={{ minWidth: 260, flex: "1 1 auto" }}>
                       <div className="row" style={{ gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                        <div style={{ fontWeight: 650 }}>{productName}</div>
+                        <div className="supplierReservationsTitle" style={{ fontWeight: 650 }}>{productName}</div>
 
                         {isNewRequest ? (
                           <div
@@ -281,7 +281,7 @@ export default async function SupplierReservationsPage() {
                       </div>
 
                       <div className="p">Requested: {d(r.created_at)}</div>
-                      <div className="p">
+                      <div className="p supplierReservationsCustomerLine">
                         Customer: {r.customer?.account_name ?? r.customer_id}
                         {r.customer?.email ? ` · ${r.customer.email}` : ""}
                       </div>
@@ -334,7 +334,7 @@ export default async function SupplierReservationsPage() {
                     </div>
 
                     <div
-                      className="row"
+                      className="row supplierReservationsActions"
                       style={{
                         alignItems: "center",
                         gap: 10,
@@ -355,29 +355,29 @@ export default async function SupplierReservationsPage() {
                         <span className="kbd">{r.status}</span>
                       </div>
 
-                      <Link className="btn btnPrimary" href={`/product/${r.product_id}`}>
+                      <Link className="btn btnPrimary supplierReservationsActionButton" href={`/product/${r.product_id}`}>
                         View product
                       </Link>
 
                       {showActions ? (
                         <>
-                          <form action={supplierConfirmReservation}>
+                          <form className="supplierReservationsActionForm" action={supplierConfirmReservation}>
                             <input type="hidden" name="reservation_id" value={r.id} />
-                            <button className="btn btnPrimary" type="submit" disabled={!canConfirm}>
+                            <button className="btn btnPrimary supplierReservationsActionButton" type="submit" disabled={!canConfirm}>
                               Confirm
                             </button>
                           </form>
 
-                          <form action={supplierRejectReservation}>
+                          <form className="supplierReservationsActionForm" action={supplierRejectReservation}>
                             <input type="hidden" name="reservation_id" value={r.id} />
-                            <button className="btn" type="submit" disabled={!canReject}>
+                            <button className="btn supplierReservationsActionButton" type="submit" disabled={!canReject}>
                               Reject
                             </button>
                           </form>
 
-                          <form action={supplierSoldReservation}>
+                          <form className="supplierReservationsActionForm" action={supplierSoldReservation}>
                             <input type="hidden" name="reservation_id" value={r.id} />
-                            <button className="btn" type="submit" disabled={!canSold}>
+                            <button className="btn supplierReservationsActionButton" type="submit" disabled={!canSold}>
                               Sold
                             </button>
                           </form>

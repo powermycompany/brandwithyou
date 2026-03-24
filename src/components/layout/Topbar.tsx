@@ -73,9 +73,10 @@ export default function Topbar({
           paddingBottom: 18,
         }}
       >
-        <div className="row" style={{ justifyContent: "space-between", alignItems: "center", gap: 18 }}>
+        <div className="row topbarRow" style={{ justifyContent: "space-between", alignItems: "center", gap: 18 }}>
           <Link
             href={homeHref}
+            className="topbarBrand"
             style={{
               textDecoration: "none",
               fontSize: 28,
@@ -87,11 +88,11 @@ export default function Topbar({
             Brandwithyou
           </Link>
 
-          <div className="row" style={{ gap: 10, justifyContent: "flex-end" }}>
+          <div className="row topbarLinks" style={{ gap: 10, justifyContent: "flex-end" }}>
             {links.map((l) => (
               <Link
                 key={l.href}
-                className="btn"
+                className="btn topbarLink"
                 href={l.href}
                 style={{
                   background: "rgba(255,255,255,0.70)",

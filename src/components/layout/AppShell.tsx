@@ -26,11 +26,13 @@ export default function AppShell({
           paddingBottom: 28,
         }}
       >
-        <div className="row" style={{ alignItems: "flex-start", gap: 18, flexWrap: "nowrap" }}>
-          <div style={{ flex: "0 0 280px" }}>
+        <div className="row appShellRow" style={{ alignItems: "flex-start", gap: 18, flexWrap: "nowrap" }}>
+          <div className="appShellSidebar" style={{ flex: "0 0 280px" }}>
             <Sidebar variant={variant} />
           </div>
-          <div style={{ flex: "1 1 auto", minWidth: 0 }}>{children}</div>
+          <div className="appShellContent" style={{ flex: "1 1 auto", minWidth: 0 }}>
+            {children}
+          </div>
         </div>
       </div>
     </div>

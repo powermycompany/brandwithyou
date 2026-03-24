@@ -90,20 +90,20 @@ export default async function CustomerMessageThreadPage({ params }: { params: Pr
     <div className="row" style={{ flexDirection: "column", gap: 14 }}>
       <div className="card">
         <div className="cardInner">
-          <div className="row" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+          <div className="row customerMessageThreadHeaderRow" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
             <div>
-              <div style={{ fontWeight: 650, fontSize: 18 }}>
+              <div className="customerMessageThreadTitle" style={{ fontWeight: 650, fontSize: 18 }}>
                 {thread.product?.product_name ?? "Product"}
               </div>
-              <div className="p">
+              <div className="p customerMessageThreadMeta">
                 {thread.product?.reference_code ?? thread.product_id} · Supplier:{" "}
                 {thread.supplier?.account_name ?? thread.supplier_id}
                 {thread.supplier?.email ? ` · ${thread.supplier.email}` : ""}
               </div>
             </div>
-            <div className="row" style={{ gap: 10 }}>
-              <Link className="btn" href="/customer/messages">Back</Link>
-              <Link className="btn" href="/customer/reservations">My reservations</Link>
+            <div className="row customerMessageThreadHeaderActions" style={{ gap: 10 }}>
+              <Link className="btn customerMessageThreadHeaderButton" href="/customer/messages">Back</Link>
+              <Link className="btn customerMessageThreadHeaderButton" href="/customer/reservations">My reservations</Link>
             </div>
           </div>
         </div>
@@ -120,6 +120,7 @@ export default async function CustomerMessageThreadPage({ params }: { params: Pr
                 return (
                   <div key={m.id} style={{ display: "flex", justifyContent: mine ? "flex-end" : "flex-start" }}>
                     <div
+                      className="customerMessageBubble"
                       style={{
                         maxWidth: 560,
                         padding: "10px 12px",
@@ -132,7 +133,7 @@ export default async function CustomerMessageThreadPage({ params }: { params: Pr
                         boxShadow: mine ? "0 8px 18px rgba(111, 170, 44, 0.18)" : "none",
                       }}
                     >
-                      <div style={{ whiteSpace: "pre-wrap" }}>{m.body}</div>
+                      <div className="customerMessageBody" style={{ whiteSpace: "pre-wrap" }}>{m.body}</div>
 
                       {(m.attachments ?? []).length ? (
                         <div className="spacer" style={{ height: 10 }} />

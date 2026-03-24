@@ -119,7 +119,7 @@ export default async function CustomerMessagesPage() {
       final_price:
         (p as any)?.final_price === null || (p as any)?.final_price === undefined
           ? null
-          : Number((p as any).final_price),
+          : Number((p as any)?.final_price),
     });
   }
 
@@ -133,7 +133,7 @@ export default async function CustomerMessagesPage() {
     <div className="row" style={{ flexDirection: "column", gap: 14 }}>
       <div className="card">
         <div className="cardInner">
-          <div className="row" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+          <div className="row customerMessagesHeaderRow" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
             <div>
               <h1 className="h1">Messages</h1>
               <p className="p">
@@ -143,8 +143,8 @@ export default async function CustomerMessagesPage() {
               </p>
             </div>
 
-            <div className="row" style={{ gap: 10, alignItems: "center" }}>
-              <Link className="btn" href="/customer/reservations">
+            <div className="row customerMessagesHeaderActions" style={{ gap: 10, alignItems: "center" }}>
+              <Link className="btn customerMessagesHeaderButton" href="/customer/reservations">
                 My reservations
               </Link>
               <div className="badge">
@@ -202,10 +202,10 @@ export default async function CustomerMessagesPage() {
                 }
               >
                 <div className="cardInner">
-                  <div className="row" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-                    <div style={{ minWidth: 260, flex: "1 1 auto" }}>
+                  <div className="row customerMessagesRow" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                    <div className="customerMessagesInfo" style={{ minWidth: 260, flex: "1 1 auto" }}>
                       <div className="row" style={{ gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                        <div style={{ fontWeight: 650 }}>
+                        <div className="customerMessagesTitle" style={{ fontWeight: 650 }}>
                           {t.product?.product_name ?? "Product"}
                         </div>
 
@@ -238,7 +238,7 @@ export default async function CustomerMessagesPage() {
                         ) : null}
                       </div>
 
-                      <div className="p">
+                      <div className="p customerMessagesSupplierLine">
                         Supplier: {t.supplier?.account_name ?? t.supplier_id}
                         {t.supplier?.email ? ` · ${t.supplier.email}` : ""}
                       </div>
@@ -276,7 +276,7 @@ export default async function CustomerMessagesPage() {
                     </div>
 
                     <div
-                      className="row"
+                      className="row customerMessagesActions"
                       style={{
                         alignItems: "center",
                         gap: 10,
@@ -304,10 +304,10 @@ export default async function CustomerMessagesPage() {
                         <span>Updated</span>
                         <span className="kbd">{d(t.updated_at)}</span>
                       </div>
-                      <Link className="btn btnPrimary" href={`/customer/messages/${t.id}`}>
+                      <Link className="btn btnPrimary customerMessagesActionButton" href={`/customer/messages/${t.id}`}>
                         Open messages
                       </Link>
-                      <Link className="btn" href={`/product/${t.product_id}`}>
+                      <Link className="btn customerMessagesActionButton" href={`/product/${t.product_id}`}>
                         View product
                       </Link>
                     </div>

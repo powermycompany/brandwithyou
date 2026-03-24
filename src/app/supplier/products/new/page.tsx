@@ -311,8 +311,8 @@ export default function SupplierNewProductPage() {
 
                 <div className="spacer" />
 
-                <div className="row" style={{ flexWrap: "wrap", alignItems: "flex-start", gap: 14 }}>
-                  <div style={{ flex: "1 1 260px", minWidth: 260 }}>
+                <div className="row supplierNewCatalogRow" style={{ flexWrap: "wrap", alignItems: "flex-start", gap: 14 }}>
+                  <div className="supplierNewCatalogField" style={{ flex: "1 1 260px", minWidth: 260 }}>
                     <label className="p">Main Category</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <select
@@ -345,7 +345,7 @@ export default function SupplierNewProductPage() {
                     </div>
                   </div>
 
-                  <div style={{ flex: "1 1 260px", minWidth: 260 }}>
+                  <div className="supplierNewCatalogField" style={{ flex: "1 1 260px", minWidth: 260 }}>
                     <label className="p">Brand</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <select
@@ -377,7 +377,7 @@ export default function SupplierNewProductPage() {
                     </div>
                   </div>
 
-                  <div style={{ flex: "1 1 260px", minWidth: 260 }}>
+                  <div className="supplierNewCatalogField" style={{ flex: "1 1 260px", minWidth: 260 }}>
                     <label className="p">Brand Subcategory</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <select
@@ -407,7 +407,7 @@ export default function SupplierNewProductPage() {
                     </div>
                   </div>
 
-                  <div style={{ flex: "1 1 260px", minWidth: 260 }}>
+                  <div className="supplierNewCatalogField" style={{ flex: "1 1 260px", minWidth: 260 }}>
                     <label className="p">Product Type</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <select
@@ -474,8 +474,8 @@ export default function SupplierNewProductPage() {
 
                 <div className="spacer" />
 
-                <div className="row">
-                  <div style={{ flex: "1 1 420px" }}>
+                <div className="row supplierNewDetailsRow">
+                  <div className="supplierNewField" style={{ flex: "1 1 420px" }}>
                     <label className="p">Product Name</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -488,7 +488,7 @@ export default function SupplierNewProductPage() {
                     />
                   </div>
 
-                  <div style={{ flex: "0 0 220px" }}>
+                  <div className="supplierNewSelectField" style={{ flex: "0 0 220px" }}>
                     <label className="p">Gender</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <select className="input" name="gender" value={gender} onChange={(e) => setGender(e.target.value)} required>
@@ -501,8 +501,8 @@ export default function SupplierNewProductPage() {
 
                 <div className="spacer" />
 
-                <div className="row">
-                  <div style={{ flex: "1 1 340px" }}>
+                <div className="row supplierNewRefRow">
+                  <div className="supplierNewField" style={{ flex: "1 1 340px" }}>
                     <label className="p">Product No.</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -514,7 +514,7 @@ export default function SupplierNewProductPage() {
                     />
                   </div>
 
-                  <div style={{ flex: "1 1 340px" }}>
+                  <div className="supplierNewField" style={{ flex: "1 1 340px" }}>
                     <label className="p">Serial Number (Optional)</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -528,8 +528,8 @@ export default function SupplierNewProductPage() {
 
                 <div className="spacer" />
 
-                <div className="row">
-                  <div style={{ flex: "0 0 220px" }}>
+                <div className="row supplierNewPricingRow">
+                  <div className="supplierNewSelectField" style={{ flex: "0 0 220px" }}>
                     <label className="p">Condition</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <select
@@ -544,7 +544,7 @@ export default function SupplierNewProductPage() {
                     </select>
                   </div>
 
-                  <div style={{ flex: "0 0 220px" }}>
+                  <div className="supplierNewSelectField" style={{ flex: "0 0 220px" }}>
                     <label className="p">Currency</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <select
@@ -562,7 +562,7 @@ export default function SupplierNewProductPage() {
                     </select>
                   </div>
 
-                  <div style={{ flex: "0 0 320px" }}>
+                  <div className="supplierNewField" style={{ flex: "0 0 320px" }}>
                     <label className="p">Selling Price Incl. VAT</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -580,8 +580,8 @@ export default function SupplierNewProductPage() {
 
                 <div className="spacer" />
 
-                <div className="row">
-                  <div style={{ flex: "0 0 200px" }}>
+                <div className="row supplierNewQtyRow">
+                  <div className="supplierNewSelectField" style={{ flex: "0 0 200px" }}>
                     <label className="p">Quantity</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -599,8 +599,8 @@ export default function SupplierNewProductPage() {
 
                 <div className="spacer" />
 
-                <div className="row">
-                  <div style={{ flex: "1 1 220px" }}>
+                <div className="row supplierNewOptionalRow">
+                  <div className="supplierNewField" style={{ flex: "1 1 220px" }}>
                     <label className="p">Color (Optional)</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -611,7 +611,7 @@ export default function SupplierNewProductPage() {
                     />
                   </div>
 
-                  <div style={{ flex: "1 1 220px" }}>
+                  <div className="supplierNewField" style={{ flex: "1 1 220px" }}>
                     <label className="p">Material (Optional)</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -622,7 +622,7 @@ export default function SupplierNewProductPage() {
                     />
                   </div>
 
-                  <div style={{ flex: "1 1 260px" }}>
+                  <div className="supplierNewField" style={{ flex: "1 1 260px" }}>
                     <label className="p">Hardware Details (Optional)</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -636,8 +636,8 @@ export default function SupplierNewProductPage() {
 
                 <div className="spacer" />
 
-                <div className="row">
-                  <div style={{ flex: "1 1 300px" }}>
+                <div className="row supplierNewSizeRow">
+                  <div className="supplierNewField" style={{ flex: "1 1 300px" }}>
                     <label className="p">Size / Specs (Optional)</label>
                     <div className="spacer" style={{ height: 6 }} />
                     <input
@@ -667,13 +667,13 @@ export default function SupplierNewProductPage() {
 
             <div className="spacer" />
 
-            <div className="row" style={{ justifyContent: "space-between", alignItems: "center" }}>
+            <div className="row supplierNewSubmitRow" style={{ justifyContent: "space-between", alignItems: "center" }}>
               <div className="badge">
               </div>
 
-              <div className="row">
+              <div className="row supplierNewSubmitActions">
                 {canList ? (
-                  <button className="btn btnPrimary" type="submit" name="status" value="published">
+                  <button className="btn btnPrimary supplierNewSubmitButton" type="submit" name="status" value="published">
                     List
                   </button>
                 ) : null}

@@ -49,7 +49,6 @@ export default async function CustomerProfilePage() {
     );
   }
 
-  // deletion request status (for 30-day scheduled deletion UI)
   const { data: delReq, error: delErr } = await supabase
     .from("account_deletion_requests")
     .select("execute_after,cancelled_at,completed_at")
@@ -106,14 +105,14 @@ export default async function CustomerProfilePage() {
       <div className="card">
         <div className="cardInner">
           <form action={updateCustomerProfile}>
-            <div className="row">
-              <div style={{ flex: "1 1 320px" }}>
+            <div className="row customerProfileTopRow">
+              <div className="customerProfileField" style={{ flex: "1 1 320px" }}>
                 <label className="p">Full name</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input className="input" name="full_name" required defaultValue={prof.full_name ?? ""} />
               </div>
 
-              <div style={{ flex: "1 1 320px" }}>
+              <div className="customerProfileField" style={{ flex: "1 1 320px" }}>
                 <label className="p">Account name</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input className="input" name="account_name" required defaultValue={prof.account_name ?? ""} />
@@ -122,13 +121,12 @@ export default async function CustomerProfilePage() {
 
             <div className="spacer" />
 
-            {/* Country + dial code + phone */}
             <CountryPhoneFields defaultCountry={prof.country ?? ""} defaultPhone={prof.phone ?? ""} />
 
             <div className="spacer" />
 
-            <div className="row">
-              <div style={{ flex: "0 0 220px" }}>
+            <div className="row customerProfileSelectRow">
+              <div className="customerProfileSelectField" style={{ flex: "0 0 220px" }}>
                 <label className="p">Language</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <select className="input" name="preferred_language" defaultValue={prof.preferred_language ?? "en"}>
@@ -137,7 +135,7 @@ export default async function CustomerProfilePage() {
                 </select>
               </div>
 
-              <div style={{ flex: "0 0 260px" }}>
+              <div className="customerProfileSelectField" style={{ flex: "0 0 260px" }}>
                 <label className="p">Gender</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <select className="input" name="gender" defaultValue={prof.gender ?? "na"}>
@@ -160,7 +158,7 @@ export default async function CustomerProfilePage() {
 
             <div className="spacer" />
 
-            <button className="btn btnPrimary" type="submit">
+            <button className="btn btnPrimary customerProfileSaveButton" type="submit">
               Save
             </button>
           </form>

@@ -3,13 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { allCountries } from "country-telephone-data";
 
-/**
- * Fix hydration mismatch:
- * - Ensure COUNTRIES list is deterministic and identical on server+client render.
- * - Avoid locale-dependent sorting and any nondeterministic ordering.
- * - Use a stable key that cannot collide.
- */
-
 type CountryItem = { name: string; iso2: string; dialCode: string };
 
 function buildCountries(): CountryItem[] {
@@ -23,7 +16,6 @@ function buildCountries(): CountryItem[] {
 
     if (!name || !dial || !iso2) continue;
 
-    // De-dupe by iso2+dial+name (most stable)
     const k = `${iso2}|${dial}|${name}`;
     if (seen.has(k)) continue;
     seen.add(k);
@@ -31,7 +23,6 @@ function buildCountries(): CountryItem[] {
     out.push({ name, iso2, dialCode: dial });
   }
 
-  // Deterministic sort: ASCII compare on uppercased name, tie-break by iso2 then dial
   out.sort((a, b) => {
     const an = a.name.toUpperCase();
     const bn = b.name.toUpperCase();
@@ -94,8 +85,8 @@ export default function CountryPhoneFields({
   }, [dial, rest]);
 
   return (
-    <div className="row">
-      <div style={{ flex: "1 1 280px" }}>
+    <div className="row countryPhoneRow">
+      <div className="countryPhoneField" style={{ flex: "1 1 280px" }}>
         <label className="p">Country</label>
         <div className="spacer" style={{ height: 6 }} />
         <select className="input" name="country" value={country} onChange={(e) => setCountry(e.target.value)} required>
@@ -108,13 +99,13 @@ export default function CountryPhoneFields({
         </select>
       </div>
 
-      <div style={{ flex: "0 0 160px" }}>
+      <div className="countryPhoneDialField" style={{ flex: "0 0 160px" }}>
         <label className="p">Dial</label>
         <div className="spacer" style={{ height: 6 }} />
         <input className="input" value={dial ? `+${dial}` : ""} readOnly aria-label="Dial code" />
       </div>
 
-      <div style={{ flex: "1 1 280px" }}>
+      <div className="countryPhoneField" style={{ flex: "1 1 280px" }}>
         <label className="p">Phone</label>
         <div className="spacer" style={{ height: 6 }} />
         <input className="input" value={rest} onChange={(e) => setRest(e.target.value)} placeholder="Phone number" />

@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { requestAccountDeletion, cancelAccountDeletion } from "@/server/actions/deleteAccount";
 
 type Props = {
-  // ISO string if already scheduled; null/undefined otherwise
   scheduledExecuteAfter?: string | null;
 };
 
@@ -66,7 +65,7 @@ export default function DeleteAccountButton({ scheduledExecuteAfter }: Props) {
   return (
     <div className="card">
       <div className="cardInner">
-        <div className="row" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+        <div className="row deleteAccountHeaderRow" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
           <div>
             <div style={{ fontWeight: 650, fontSize: 18 }}>Delete account</div>
             <p className="p">
@@ -79,14 +78,14 @@ export default function DeleteAccountButton({ scheduledExecuteAfter }: Props) {
             ) : null}
           </div>
 
-          <div className="row" style={{ gap: 10, alignItems: "center" }}>
+          <div className="row deleteAccountHeaderActions" style={{ gap: 10, alignItems: "center" }}>
             {isScheduled ? (
-              <button className="btn" type="button" disabled={busy} onClick={onCancelScheduled}>
+              <button className="btn deleteAccountActionButton" type="button" disabled={busy} onClick={onCancelScheduled}>
                 Cancel deletion
               </button>
             ) : (
               <button
-                className="btn"
+                className="btn deleteAccountActionButton"
                 type="button"
                 onClick={() => setOpen(true)}
                 style={{
@@ -110,28 +109,27 @@ export default function DeleteAccountButton({ scheduledExecuteAfter }: Props) {
           </>
         ) : null}
 
-        {/* Modal */}
         {open ? (
           <div
             role="dialog"
             aria-modal="true"
+            className="deleteAccountModal"
             style={{
               position: "fixed",
               inset: 0,
               zIndex: 60,
-              background: "rgba(0,0,0,0.78)", // NOT transparent
+              background: "rgba(0,0,0,0.78)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               padding: 18,
             }}
             onMouseDown={(e) => {
-              // close when clicking the backdrop
               if (e.target === e.currentTarget) setOpen(false);
             }}
           >
             <div
-              className="card"
+              className="card deleteAccountModalCard"
               style={{
                 width: "min(780px, 100%)",
               }}
@@ -158,13 +156,13 @@ export default function DeleteAccountButton({ scheduledExecuteAfter }: Props) {
 
                 <div className="spacer" />
 
-                <div className="row" style={{ justifyContent: "space-between", alignItems: "center" }}>
-                  <button className="btn" type="button" onClick={() => setOpen(false)} disabled={busy}>
+                <div className="row deleteAccountModalActions" style={{ justifyContent: "space-between", alignItems: "center" }}>
+                  <button className="btn deleteAccountModalButton" type="button" onClick={() => setOpen(false)} disabled={busy}>
                     Cancel
                   </button>
 
                   <button
-                    className="btn"
+                    className="btn deleteAccountModalButton"
                     type="button"
                     disabled={!canConfirm || busy}
                     onClick={onRequest}

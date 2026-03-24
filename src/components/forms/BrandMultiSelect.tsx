@@ -51,18 +51,18 @@ export default function BrandMultiSelect({
   return (
     <div className="card">
       <div className="cardInner">
-        <div className="row" style={{ justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+        <div className="row brandMultiHeader" style={{ justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
           <div>
             <div style={{ fontWeight: 650, fontSize: 18 }}>{title}</div>
             {subtitle ? <p className="p">{subtitle}</p> : null}
           </div>
 
-          <div className="row" style={{ gap: 10, alignItems: "center", justifyContent: "flex-end", flexWrap: "wrap" }}>
+          <div className="row brandMultiHeaderActions" style={{ gap: 10, alignItems: "center", justifyContent: "flex-end", flexWrap: "wrap" }}>
             <div className="badge">
               <span>Selected</span>
               <span className="kbd">{selected.length}</span>
             </div>
-            <button className="btn" type="button" onClick={clearAll} disabled={selected.length === 0}>
+            <button className="btn brandMultiClearButton" type="button" onClick={clearAll} disabled={selected.length === 0}>
               Clear
             </button>
           </div>
@@ -72,7 +72,6 @@ export default function BrandMultiSelect({
 
         <div className="spacer" />
 
-        {/* Selected badges */}
         {selectedBrands.length > 0 ? (
           <>
             <div className="row" style={{ gap: 10, flexWrap: "wrap" }}>
@@ -96,9 +95,8 @@ export default function BrandMultiSelect({
           </>
         ) : null}
 
-        {/* Search */}
-        <div className="row" style={{ alignItems: "center", gap: 10 }}>
-          <div style={{ flex: "1 1 420px" }}>
+        <div className="row brandMultiSearchRow" style={{ alignItems: "center", gap: 10 }}>
+          <div className="brandMultiSearchInputWrap" style={{ flex: "1 1 420px" }}>
             <input
               className="input"
               value={query}
@@ -115,7 +113,6 @@ export default function BrandMultiSelect({
 
         <div className="spacer" />
 
-        {/* Stable list area: minHeight prevents “collapsing” when matches are few */}
         <div
           className="card"
           style={{
@@ -134,7 +131,7 @@ export default function BrandMultiSelect({
                   return (
                     <label
                       key={b.id}
-                      className="row"
+                      className="row brandMultiOptionRow"
                       style={{
                         justifyContent: "space-between",
                         alignItems: "center",
@@ -146,17 +143,16 @@ export default function BrandMultiSelect({
                         cursor: "pointer",
                       }}
                     >
-                      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                      <div className="brandMultiOptionLabelWrap" style={{ display: "flex", gap: 10, alignItems: "center" }}>
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => toggle(b.id)}
                           style={{ transform: "translateY(1px)" }}
                         />
-                        <div style={{ fontWeight: 600 }}>{b.name_en ?? `#${b.id}`}</div>
+                        <div className="brandMultiOptionLabel" style={{ fontWeight: 600 }}>{b.name_en ?? `#${b.id}`}</div>
                       </div>
 
-                      {/* No more ID pill. Keep a small “✓” only when selected */}
                       {checked ? (
                         <div className="badge">
                           <span>Selected</span>

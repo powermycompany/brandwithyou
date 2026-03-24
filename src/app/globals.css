@@ -17,6 +17,10 @@
 *{ box-sizing: border-box; }
 html, body{ height: 100%; }
 
+html{
+  -webkit-text-size-adjust: 100%;
+}
+
 body{
   margin: 0;
   background:
@@ -26,6 +30,15 @@ body{
   color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
   letter-spacing: 0.2px;
+}
+
+img{
+  max-width: 100%;
+  height: auto;
+}
+
+input, select, button, textarea{
+  font: inherit;
 }
 
 a{ color: inherit; text-decoration: none; }
@@ -124,6 +137,7 @@ a:hover{ text-decoration: none; }
   background: rgba(255,255,255,0.64);
   color: var(--muted);
   font-size: 12px;
+  max-width: 100%;
 }
 
 .kbd{
@@ -134,4 +148,912 @@ a:hover{ text-decoration: none; }
   border: 1px solid var(--line);
   background: rgba(255,255,255,0.72);
   color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.appShellRow{
+  min-width: 0;
+}
+
+.appShellSidebar,
+.appShellContent{
+  min-width: 0;
+}
+
+.luxeProductLink{
+  word-break: break-word;
+}
+
+.productDetailTitleWrap,
+.productDetailPriceWrap,
+.productGalleryCard{
+  min-width: 0;
+}
+
+@media (max-width: 900px){
+  .appShellRow{
+    flex-wrap: wrap !important;
+  }
+
+  .appShellSidebar{
+    flex: 1 1 100% !important;
+    width: 100%;
+  }
+
+  .appShellContent{
+    width: 100%;
+  }
+}
+
+@media (max-width: 720px){
+  .container{
+    padding: 18px 14px;
+  }
+
+  .cardInner{
+    padding: 16px;
+  }
+
+  .h1{
+    font-size: 28px;
+    line-height: 1.12;
+  }
+
+  .input,
+  select.input,
+  .btn{
+    font-size: 16px !important;
+  }
+
+  .luxeHeroRow{
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .luxeSearchRow{
+    flex-wrap: wrap !important;
+  }
+
+  .luxeSearchInputWrap,
+  .luxeSearchButton{
+    width: 100%;
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  .luxeFiltersRow{
+    gap: 12px !important;
+  }
+
+  .luxeFilterItem{
+    min-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+
+  .luxeClearButton{
+    width: 100%;
+  }
+
+  .luxeProductRow{
+    flex-wrap: wrap !important;
+  }
+
+  .luxeProductMedia{
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 220px;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+
+  .luxeTitlePriceRow{
+    flex-wrap: wrap !important;
+  }
+
+  .luxePriceBlock{
+    width: 100%;
+    min-width: 0 !important;
+    text-align: left !important;
+  }
+
+  .luxeActionsRow{
+    align-items: stretch !important;
+  }
+
+  .luxeActionButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .luxeReserveForm{
+    width: 100%;
+    flex-wrap: wrap !important;
+    margin-left: 0 !important;
+  }
+
+  .luxeQtySelect,
+  .luxeReserveButton{
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .luxeReserveBadge{
+    width: 100%;
+    margin-left: 0 !important;
+    justify-content: center;
+  }
+
+  .productDetailBackRow{
+    justify-content: flex-start !important;
+  }
+
+  .productDetailBackButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .productDetailHeaderRow{
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .productDetailTitleWrap{
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+  }
+
+  .productDetailPriceWrap{
+    width: 100%;
+    min-width: 0 !important;
+    text-align: left !important;
+  }
+
+  .productDetailActionRow{
+    align-items: stretch !important;
+  }
+
+  .productDetailReserveForm{
+    width: 100%;
+    flex-wrap: wrap !important;
+    margin-left: 0 !important;
+  }
+
+  .productDetailQty,
+  .productDetailReserveButton{
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .productDetailReserveBadge{
+    width: 100%;
+    margin-left: 0 !important;
+    justify-content: center;
+  }
+
+  .productGalleryCard{
+    width: calc(50% - 6px) !important;
+  }
+
+  .productGalleryModal{
+    padding: 12px !important;
+  }
+
+  .productGalleryModalInner{
+    width: min(100%, 96vw) !important;
+    height: min(78vh, 920px) !important;
+    padding: 12px !important;
+  }
+
+  .productGalleryClose{
+    top: 10px !important;
+    right: 10px !important;
+  }
+
+  .productGalleryPrev{
+    left: 10px !important;
+  }
+
+  .productGalleryNext{
+    right: 10px !important;
+  }
+}
+
+@media (max-width: 480px){
+  .productGalleryCard{
+    width: 100% !important;
+  }
+
+  .productGalleryThumb{
+    height: 180px !important;
+  }
+
+  .productGalleryPrev,
+  .productGalleryNext{
+    top: auto !important;
+    bottom: 12px !important;
+    transform: none !important;
+  }
+
+  .productGalleryPrev{
+    left: 12px !important;
+  }
+
+  .productGalleryNext{
+    right: 12px !important;
+  }
+
+  .productGalleryCounter{
+    bottom: 12px !important;
+  }
+}
+
+@media (max-width: 720px){
+  .exclusivityCardInner{
+    padding: 20px !important;
+  }
+
+  .exclusivitySectionTitle{
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+  }
+
+  .exclusivityActionsRow{
+    align-items: stretch !important;
+  }
+
+  .exclusivityActionButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 720px){
+  .policyCardInner{
+    padding: 20px !important;
+  }
+
+  .policySectionTitle{
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+  }
+}
+
+.customerReservationInfo,
+.customerReservationActions{
+  min-width: 0;
+}
+
+.customerReservationTitle{
+  word-break: break-word;
+}
+
+@media (max-width: 720px){
+  .customerReservationRow{
+    align-items: stretch !important;
+  }
+
+  .customerReservationInfo{
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  .customerReservationActions{
+    width: 100%;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+  }
+
+  .customerReservationActionButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .customerReservationCancelForm{
+    width: 100%;
+  }
+}
+
+.purchaseHistoryHeaderInfo,
+.purchaseHistoryHeaderActions,
+.purchaseHistoryInfo,
+.purchaseHistoryTotals{
+  min-width: 0;
+}
+
+.purchaseHistoryTitle{
+  word-break: break-word;
+}
+
+@media (max-width: 720px){
+  .purchaseHistoryHeaderRow{
+    align-items: stretch !important;
+  }
+
+  .purchaseHistoryHeaderActions{
+    width: 100%;
+  }
+
+  .purchaseHistoryHeaderButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .purchaseHistoryRow{
+    align-items: stretch !important;
+  }
+
+  .purchaseHistoryInfo{
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  .purchaseHistoryTotals{
+    width: 100%;
+    justify-content: flex-start !important;
+  }
+}
+
+.customerProfileField,
+.customerProfileSelectField,
+.countryPhoneField,
+.countryPhoneDialField,
+.brandMultiSearchInputWrap,
+.brandMultiOptionLabelWrap{
+  min-width: 0;
+}
+
+.brandMultiOptionLabel{
+  word-break: break-word;
+}
+
+@media (max-width: 720px){
+  .customerProfileTopRow,
+  .customerProfileSelectRow,
+  .countryPhoneRow{
+    align-items: stretch !important;
+  }
+
+  .customerProfileField,
+  .customerProfileSelectField,
+  .countryPhoneField,
+  .countryPhoneDialField{
+    flex: 1 1 100% !important;
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .customerProfileSaveButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .brandMultiHeader{
+    align-items: stretch !important;
+  }
+
+  .brandMultiHeaderActions,
+  .brandMultiSearchRow{
+    width: 100%;
+  }
+
+  .brandMultiSearchInputWrap,
+  .brandMultiClearButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .deleteAccountHeaderRow,
+  .deleteAccountModalActions{
+    align-items: stretch !important;
+  }
+
+  .deleteAccountHeaderActions{
+    width: 100%;
+  }
+
+  .deleteAccountActionButton,
+  .deleteAccountModalButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 480px){
+  .deleteAccountModal{
+    padding: 12px !important;
+  }
+
+  .deleteAccountModalCard{
+    width: min(100%, 96vw) !important;
+  }
+}
+
+.customerMessagesHeaderActions,
+.customerMessagesInfo,
+.customerMessagesActions{
+  min-width: 0;
+}
+
+.customerMessagesTitle,
+.customerMessagesSupplierLine{
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px){
+  .customerMessagesHeaderRow{
+    align-items: stretch !important;
+  }
+
+  .customerMessagesHeaderActions{
+    width: 100%;
+    justify-content: flex-start !important;
+  }
+
+  .customerMessagesHeaderButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .customerMessagesRow{
+    align-items: stretch !important;
+  }
+
+  .customerMessagesInfo{
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  .customerMessagesActions{
+    width: 100%;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+  }
+
+  .customerMessagesActionButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+.customerMessageThreadTitle,
+.customerMessageThreadMeta,
+.customerMessageBody{
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px){
+  .customerMessageThreadHeaderRow{
+    align-items: stretch !important;
+  }
+
+  .customerMessageThreadHeaderActions{
+    width: 100%;
+  }
+
+  .customerMessageThreadHeaderButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .customerMessageBubble{
+    width: min(100%, 560px) !important;
+    max-width: 100% !important;
+  }
+}
+
+.sidebarBrand,
+.sidebarLinkLabel,
+.topbarBrand,
+.topbarLinks{
+  min-width: 0;
+}
+
+.sidebarLinkLabel,
+.topbarBrand{
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px){
+  .topbarRow{
+    align-items: stretch !important;
+  }
+
+  .topbarBrand{
+    font-size: 24px !important;
+  }
+
+  .topbarLinks{
+    width: 100%;
+    justify-content: flex-start !important;
+  }
+
+  .topbarLink{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .sidebarLink{
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+.supplierDashboardHeaderActions,
+.supplierDashboardSplitRow,
+.supplierDashboardRankName,
+.supplierDashboardSoldInfo,
+.supplierDashboardSoldMeta{
+  min-width: 0;
+}
+
+.supplierDashboardRankName,
+.supplierDashboardSoldTitle{
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px){
+  .supplierDashboardHeaderRow{
+    align-items: stretch !important;
+  }
+
+  .supplierDashboardHeaderActions{
+    width: 100%;
+  }
+
+  .supplierDashboardHeaderButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierDashboardCurrencyCard,
+  .supplierDashboardPanel{
+    width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+
+  .supplierDashboardRankRow{
+    align-items: flex-start !important;
+  }
+
+  .supplierDashboardTimelineTable{
+    overflow-x: auto;
+  }
+
+  .supplierDashboardTimelineHeader,
+  .supplierDashboardTimelineRow{
+    min-width: 460px;
+  }
+
+  .supplierDashboardSalesSummary{
+    align-items: stretch !important;
+  }
+
+  .supplierDashboardSalesSummaryActions{
+    width: 100%;
+    justify-content: flex-start !important;
+  }
+
+  .supplierDashboardSalesToggle{
+    width: 100%;
+    min-width: 0 !important;
+    justify-content: center;
+  }
+
+  .supplierDashboardSoldRow{
+    align-items: stretch !important;
+  }
+
+  .supplierDashboardSoldInfo,
+  .supplierDashboardSoldMeta{
+    width: 100%;
+    min-width: 0 !important;
+    text-align: left !important;
+  }
+}
+
+.supplierProductsTitle,
+.supplierProductsActionsGroup{
+  min-width: 0;
+}
+
+.supplierProductsTitle{
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px){
+  .supplierProductsHeroRow{
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .supplierProductsHeroActions{
+    width: 100%;
+  }
+
+  .supplierProductsHeroButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierProductsSearchRow{
+    flex-wrap: wrap !important;
+  }
+
+  .supplierProductsSearchInputWrap{
+    width: 100%;
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  .supplierProductsFiltersRow{
+    gap: 12px !important;
+  }
+
+  .supplierProductsFilterItem{
+    min-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+
+  .supplierProductsClearButton{
+    width: 100%;
+  }
+
+  .supplierProductsCardRow{
+    flex-wrap: wrap !important;
+  }
+
+  .supplierProductsCardMedia{
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 220px;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+
+  .supplierProductsTitleRow{
+    flex-wrap: wrap !important;
+  }
+
+  .supplierProductsActionsRow{
+    align-items: stretch !important;
+  }
+
+  .supplierProductsActionsGroup{
+    width: 100%;
+    align-items: stretch !important;
+  }
+
+  .supplierProductsActionButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierProductsDeleteForm{
+    width: 100%;
+  }
+}
+
+.supplierNewCatalogField,
+.supplierNewField,
+.supplierNewSelectField,
+.supplierNewSubmitActions{
+  min-width: 0;
+}
+
+@media (max-width: 720px){
+  .supplierNewCatalogRow,
+  .supplierNewDetailsRow,
+  .supplierNewRefRow,
+  .supplierNewPricingRow,
+  .supplierNewQtyRow,
+  .supplierNewOptionalRow,
+  .supplierNewSizeRow,
+  .supplierNewSubmitRow{
+    align-items: stretch !important;
+  }
+
+  .supplierNewCatalogField,
+  .supplierNewField,
+  .supplierNewSelectField{
+    flex: 1 1 100% !important;
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierNewSubmitActions{
+    width: 100%;
+  }
+
+  .supplierNewSubmitButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+.supplierProductHeroActions,
+.supplierProductEditField{
+  min-width: 0;
+}
+
+@media (max-width: 720px){
+  .supplierProductBackRow{
+    justify-content: flex-start !important;
+  }
+
+  .supplierProductBackButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierProductHeroRow{
+    align-items: stretch !important;
+  }
+
+  .supplierProductHeroActions{
+    width: 100%;
+    align-items: stretch !important;
+  }
+
+  .supplierProductHeroForm{
+    width: 100%;
+  }
+
+  .supplierProductHeroButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierProductEditRow{
+    align-items: stretch !important;
+  }
+
+  .supplierProductEditField{
+    flex: 1 1 100% !important;
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierProductSaveButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+.supplierReservationsInfo,
+.supplierReservationsActions{
+  min-width: 0;
+}
+
+.supplierReservationsTitle,
+.supplierReservationsCustomerLine{
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px){
+  .supplierReservationsHeaderRow{
+    align-items: stretch !important;
+  }
+
+  .supplierReservationsCardRow{
+    align-items: stretch !important;
+  }
+
+  .supplierReservationsInfo{
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  .supplierReservationsActions{
+    width: 100%;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+  }
+
+  .supplierReservationsActionForm{
+    width: 100%;
+  }
+
+  .supplierReservationsActionButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+.supplierMessagesHeaderActions,
+.supplierMessagesInfo,
+.supplierMessagesActions{
+  min-width: 0;
+}
+
+.supplierMessagesTitle,
+.supplierMessagesCustomerLine{
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px){
+  .supplierMessagesHeaderRow{
+    align-items: stretch !important;
+  }
+
+  .supplierMessagesHeaderActions{
+    width: 100%;
+    justify-content: flex-start !important;
+  }
+
+  .supplierMessagesHeaderButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierMessagesCardRow{
+    align-items: stretch !important;
+  }
+
+  .supplierMessagesInfo{
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  .supplierMessagesActions{
+    width: 100%;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+  }
+
+  .supplierMessagesActionButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+}
+
+.supplierMessageThreadTitle,
+.supplierMessageThreadMeta,
+.supplierMessageBody{
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px){
+  .supplierMessageThreadHeaderRow{
+    align-items: stretch !important;
+  }
+
+  .supplierMessageThreadHeaderActions{
+    width: 100%;
+  }
+
+  .supplierMessageThreadHeaderButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierMessageBubble{
+    width: min(100%, 560px) !important;
+    max-width: 100% !important;
+  }
+}
+
+.supplierProfileField,
+.supplierProfileSelectField{
+  min-width: 0;
+}
+
+@media (max-width: 720px){
+  .supplierProfileTopRow,
+  .supplierProfileSelectRow{
+    align-items: stretch !important;
+  }
+
+  .supplierProfileField,
+  .supplierProfileSelectField{
+    flex: 1 1 100% !important;
+    width: 100%;
+    min-width: 0 !important;
+  }
+
+  .supplierProfileSaveButton{
+    width: 100%;
+    min-width: 0 !important;
+  }
 }

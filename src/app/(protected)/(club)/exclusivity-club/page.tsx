@@ -11,7 +11,7 @@ export default function ExclusivityClubPage() {
           WebkitBackdropFilter: "blur(18px)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
+        <div className="cardInner exclusivityCardInner" style={{ padding: 28 }}>
           <h1 className="h1" style={{ marginBottom: 10 }}>
             Exclusivity Club
           </h1>
@@ -40,8 +40,10 @@ export default function ExclusivityClubPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>1. The Environment</h2>
+        <div className="cardInner exclusivityCardInner" style={{ padding: 28 }}>
+          <h2 className="exclusivitySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>
+            1. The Environment
+          </h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Brandwithyou brings you <b>Luxe Atelier</b>, a controlled environment for luxury discovery, reservation,
             and communication. It is intended to provide a more refined shopping experience than an open and general
@@ -65,8 +67,10 @@ export default function ExclusivityClubPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>2. A Closed and Privileged Network</h2>
+        <div className="cardInner exclusivityCardInner" style={{ padding: 28 }}>
+          <h2 className="exclusivitySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>
+            2. A Closed and Privileged Network
+          </h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Brandwithyou is intended to remain a closed and trusted network of luxury trading and platform activity. In
             that sense, exclusivity is not treated as a separate membership tier, but as a defining quality of the
@@ -96,8 +100,10 @@ export default function ExclusivityClubPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>3. What We Look For</h2>
+        <div className="cardInner exclusivityCardInner" style={{ padding: 28 }}>
+          <h2 className="exclusivitySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>
+            3. What We Look For
+          </h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             We seek to work with products and partners that reflect strong provenance, authentic luxury positioning,
             responsible conduct, and a high standard of professional communication. The platform is intended for those
@@ -121,8 +127,10 @@ export default function ExclusivityClubPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>4. Product Search and Sourcing Requests</h2>
+        <div className="cardInner exclusivityCardInner" style={{ padding: 28 }}>
+          <h2 className="exclusivitySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>
+            4. Product Search and Sourcing Requests
+          </h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Clients and partners are always welcome to contact Brandwithyou with a product search request. If you are
             looking for a specific piece, a particular brand, a collection, or a defined sourcing brief, you may submit
@@ -145,8 +153,10 @@ export default function ExclusivityClubPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>5. Platform Services</h2>
+        <div className="cardInner exclusivityCardInner" style={{ padding: 28 }}>
+          <h2 className="exclusivitySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>
+            5. Platform Services
+          </h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Brandwithyou provides a structured service environment for luxury product presentation, reservation flow,
             authentication review, communication support, and issue coordination. The platform is intended to support
@@ -170,8 +180,10 @@ export default function ExclusivityClubPage() {
           border: "1px solid rgba(29,27,24,0.07)",
         }}
       >
-        <div className="cardInner" style={{ padding: 28 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>6. Tickets, Issues, and Contact</h2>
+        <div className="cardInner exclusivityCardInner" style={{ padding: 28 }}>
+          <h2 className="exclusivitySectionTitle" style={{ fontSize: 24, fontWeight: 650, marginBottom: 12 }}>
+            6. Tickets, Issues, and Contact
+          </h2>
           <p className="p" style={{ lineHeight: 1.9 }}>
             Where a question, issue, or concern arises in relation to a supplier, a customer, a reservation, or the
             platform itself, users are welcome to contact Brandwithyou or submit a ticket for review. This includes
@@ -186,11 +198,11 @@ export default function ExclusivityClubPage() {
 
           <div className="spacer" />
 
-          <div className="row" style={{ gap: 10, flexWrap: "wrap" }}>
-            <Link className="btn btnPrimary" href="/contact">
+          <div className="row exclusivityActionsRow" style={{ gap: 10, flexWrap: "wrap" }}>
+            <Link className="btn btnPrimary exclusivityActionButton" href="/contact">
               Contact us
             </Link>
-            <Link className="btn" href="/tickets">
+            <Link className="btn exclusivityActionButton" href="/tickets">
               Submit ticket
             </Link>
           </div>

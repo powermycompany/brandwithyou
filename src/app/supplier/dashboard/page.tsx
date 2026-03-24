@@ -267,15 +267,15 @@ export default async function SupplierDashboardPage() {
     <div className="row" style={{ flexDirection: "column", gap: 14 }}>
       <div className="card">
         <div className="cardInner">
-          <div className="row" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+          <div className="row supplierDashboardHeaderRow" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
             <div>
               <h1 className="h1">Supplier Dashboard</h1>
               <p className="p">A total overview of sales history, product inventory, performance by brand and subcategories.</p>
             </div>
-            <div className="row" style={{ gap: 10 }}>
-              <Link className="btn" href="/supplier/products">Products</Link>
-              <Link className="btn" href="/supplier/reservations">Reservations</Link>
-              <Link className="btn btnPrimary" href="/supplier/products/new">New product</Link>
+            <div className="row supplierDashboardHeaderActions" style={{ gap: 10 }}>
+              <Link className="btn supplierDashboardHeaderButton" href="/supplier/products">Products</Link>
+              <Link className="btn supplierDashboardHeaderButton" href="/supplier/reservations">Reservations</Link>
+              <Link className="btn btnPrimary supplierDashboardHeaderButton" href="/supplier/products/new">New product</Link>
             </div>
           </div>
 
@@ -309,7 +309,7 @@ export default async function SupplierDashboardPage() {
               {ccyList.map((ccy) => {
                 const t = totalsByCcy.get(ccy)!;
                 return (
-                  <div key={ccy} className="card" style={{ width: 340, flex: "1 1 340px" }}>
+                  <div key={ccy} className="card supplierDashboardCurrencyCard" style={{ width: 340, flex: "1 1 340px" }}>
                     <div className="cardInner">
                       <div className="row" style={{ justifyContent: "space-between", alignItems: "center" }}>
                         <div style={{ fontWeight: 650 }}>{ccy}</div>
@@ -329,8 +329,8 @@ export default async function SupplierDashboardPage() {
         </div>
       </div>
 
-      <div className="row" style={{ gap: 12, alignItems: "stretch" }}>
-        <div className="card" style={{ flex: "1 1 360px" }}>
+      <div className="row supplierDashboardSplitRow" style={{ gap: 12, alignItems: "stretch" }}>
+        <div className="card supplierDashboardPanel" style={{ flex: "1 1 360px" }}>
           <div className="cardInner">
             <div style={{ fontWeight: 650, fontSize: 18 }}>Top brands</div>
             <p className="p">By total revenue.</p>
@@ -340,10 +340,10 @@ export default async function SupplierDashboardPage() {
             ) : (
               <div className="row" style={{ flexDirection: "column", gap: 8 }}>
                 {topBrands.map((r) => (
-                  <div key={r.name} className="row" style={{ justifyContent: "space-between", gap: 10 }}>
-                    <div style={{ flex: "1 1 auto" }}>{r.name}</div>
-                    <div className="p" style={{ width: 60, textAlign: "right" }}>{r.units}</div>
-                    <div style={{ width: 140, textAlign: "right", fontWeight: 650 }}>
+                  <div key={r.name} className="row supplierDashboardRankRow" style={{ justifyContent: "space-between", gap: 10 }}>
+                    <div className="supplierDashboardRankName" style={{ flex: "1 1 auto" }}>{r.name}</div>
+                    <div className="p supplierDashboardRankUnits" style={{ width: 60, textAlign: "right" }}>{r.units}</div>
+                    <div className="supplierDashboardRankRevenue" style={{ width: 140, textAlign: "right", fontWeight: 650 }}>
                       {Math.round(r.revenue * 100) / 100}
                     </div>
                   </div>
@@ -353,7 +353,7 @@ export default async function SupplierDashboardPage() {
           </div>
         </div>
 
-        <div className="card" style={{ flex: "1 1 360px" }}>
+        <div className="card supplierDashboardPanel" style={{ flex: "1 1 360px" }}>
           <div className="cardInner">
             <div style={{ fontWeight: 650, fontSize: 18 }}>Top subcategories</div>
             <p className="p">By total revenue.</p>
@@ -363,10 +363,10 @@ export default async function SupplierDashboardPage() {
             ) : (
               <div className="row" style={{ flexDirection: "column", gap: 8 }}>
                 {topSubcats.map((r) => (
-                  <div key={r.name} className="row" style={{ justifyContent: "space-between", gap: 10 }}>
-                    <div style={{ flex: "1 1 auto" }}>{r.name}</div>
-                    <div className="p" style={{ width: 60, textAlign: "right" }}>{r.units}</div>
-                    <div style={{ width: 140, textAlign: "right", fontWeight: 650 }}>
+                  <div key={r.name} className="row supplierDashboardRankRow" style={{ justifyContent: "space-between", gap: 10 }}>
+                    <div className="supplierDashboardRankName" style={{ flex: "1 1 auto" }}>{r.name}</div>
+                    <div className="p supplierDashboardRankUnits" style={{ width: 60, textAlign: "right" }}>{r.units}</div>
+                    <div className="supplierDashboardRankRevenue" style={{ width: 140, textAlign: "right", fontWeight: 650 }}>
                       {Math.round(r.revenue * 100) / 100}
                     </div>
                   </div>
@@ -390,7 +390,7 @@ export default async function SupplierDashboardPage() {
               if (rows.length === 0) return null;
 
               return (
-                <div key={ccy} className="card" style={{ marginBottom: 12 }}>
+                <div key={ccy} className="card supplierDashboardTimelineCard" style={{ marginBottom: 12 }}>
                   <div className="cardInner">
                     <div className="row" style={{ justifyContent: "space-between", alignItems: "center" }}>
                       <div style={{ fontWeight: 650 }}>{ccy}</div>
@@ -402,20 +402,20 @@ export default async function SupplierDashboardPage() {
 
                     <div className="spacer" />
 
-                    <div className="row" style={{ flexDirection: "column", gap: 8 }}>
-                      <div className="row" style={{ justifyContent: "space-between" }}>
-                        <div className="p" style={{ width: 160 }}>Month</div>
-                        <div className="p" style={{ width: 80, textAlign: "right" }}>Units</div>
-                        <div className="p" style={{ width: 220, textAlign: "right" }}>Total Revenue</div>
+                    <div className="supplierDashboardTimelineTable">
+                      <div className="row supplierDashboardTimelineHeader" style={{ justifyContent: "space-between" }}>
+                        <div className="p supplierDashboardTimelineMonth" style={{ width: 160 }}>Month</div>
+                        <div className="p supplierDashboardTimelineUnits" style={{ width: 80, textAlign: "right" }}>Units</div>
+                        <div className="p supplierDashboardTimelineRevenue" style={{ width: 220, textAlign: "right" }}>Total Revenue</div>
                       </div>
 
                       <div className="hr" />
 
                       {rows.map((r) => (
-                        <div key={r.key} className="row" style={{ justifyContent: "space-between" }}>
-                          <div style={{ width: 160 }}>{r.label}</div>
-                          <div style={{ width: 80, textAlign: "right" }}>{r.units}</div>
-                          <div style={{ width: 220, textAlign: "right", fontWeight: 650 }}>
+                        <div key={r.key} className="row supplierDashboardTimelineRow" style={{ justifyContent: "space-between" }}>
+                          <div className="supplierDashboardTimelineMonth" style={{ width: 160 }}>{r.label}</div>
+                          <div className="supplierDashboardTimelineUnits" style={{ width: 80, textAlign: "right" }}>{r.units}</div>
+                          <div className="supplierDashboardTimelineRevenue" style={{ width: 220, textAlign: "right", fontWeight: 650 }}>
                             {money(ccy, r.revenue)}
                           </div>
                         </div>
@@ -433,6 +433,7 @@ export default async function SupplierDashboardPage() {
         <div className="cardInner">
           <details>
             <summary
+              className="supplierDashboardSalesSummary"
               style={{
                 listStyle: "none",
                 cursor: "pointer",
@@ -447,12 +448,12 @@ export default async function SupplierDashboardPage() {
                 <p className="p">Completed transfers with purchaser details.</p>
               </div>
 
-              <div className="row" style={{ gap: 10, alignItems: "center" }}>
+              <div className="row supplierDashboardSalesSummaryActions" style={{ gap: 10, alignItems: "center" }}>
                 <div className="badge">
                   <span>Total</span>
                   <span className="kbd">{soldHistoryTotal ?? 0}</span>
                 </div>
-                <span className="btn">Open / close</span>
+                <span className="btn supplierDashboardSalesToggle">Open / close</span>
               </div>
             </summary>
 
@@ -465,9 +466,9 @@ export default async function SupplierDashboardPage() {
                 {soldRows.map((r) => (
                   <div key={r.id} className="card">
                     <div className="cardInner">
-                      <div className="row" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-                        <div>
-                          <div style={{ fontWeight: 650 }}>{r.products?.product_name ?? "Product"}</div>
+                      <div className="row supplierDashboardSoldRow" style={{ justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                        <div className="supplierDashboardSoldInfo">
+                          <div className="supplierDashboardSoldTitle" style={{ fontWeight: 650 }}>{r.products?.product_name ?? "Product"}</div>
                           <div className="p">{r.products?.reference_code ?? r.product_id}</div>
                           <div className="p">
                             Customer: {r.customer?.account_name ?? "—"}
@@ -475,7 +476,7 @@ export default async function SupplierDashboardPage() {
                           </div>
                         </div>
 
-                        <div style={{ textAlign: "right" }}>
+                        <div className="supplierDashboardSoldMeta" style={{ textAlign: "right" }}>
                           <div className="badge">
                             <span>Qty</span>
                             <span className="kbd">{qtyOr1(r.quantity)}</span>

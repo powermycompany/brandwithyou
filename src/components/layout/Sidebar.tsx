@@ -129,6 +129,7 @@ export default function Sidebar({ variant = "member" }: { variant?: Variant }) {
     >
       <div className="cardInner" style={{ padding: 14 }}>
         <div
+          className="sidebarBrand"
           style={{
             fontWeight: 700,
             marginBottom: 14,
@@ -139,7 +140,7 @@ export default function Sidebar({ variant = "member" }: { variant?: Variant }) {
           Brandwithyou
         </div>
 
-        <div className="row" style={{ flexDirection: "column", gap: 8 }}>
+        <div className="row sidebarNav" style={{ flexDirection: "column", gap: 8 }}>
           {items.map((it) => {
             const active = pathname === it.href || pathname?.startsWith(it.href + "/");
 
@@ -158,7 +159,7 @@ export default function Sidebar({ variant = "member" }: { variant?: Variant }) {
               <Link
                 key={it.href}
                 href={it.href}
-                className="card"
+                className="card sidebarLink"
                 style={{
                   padding: "12px 14px",
                   borderRadius: 14,
@@ -171,7 +172,7 @@ export default function Sidebar({ variant = "member" }: { variant?: Variant }) {
                   boxShadow: active ? "0 8px 18px rgba(78,64,42,0.06)" : "none",
                 }}
               >
-                <span style={{ fontWeight: 650 }}>{it.label}</span>
+                <span className="sidebarLinkLabel" style={{ fontWeight: 650 }}>{it.label}</span>
                 <Badge n={badgeN} />
               </Link>
             );

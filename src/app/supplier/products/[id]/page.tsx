@@ -107,10 +107,10 @@ export default async function SupplierProductDetailPage({
 
   return (
     <div className="row" style={{ flexDirection: "column", gap: 16 }}>
-      <div className="row" style={{ justifyContent: "flex-end" }}>
+      <div className="row supplierProductBackRow" style={{ justifyContent: "flex-end" }}>
         <Link
           href="/supplier/products"
-          className="btn"
+          className="btn supplierProductBackButton"
           style={{
             height: 42,
             borderRadius: 14,
@@ -133,7 +133,7 @@ export default async function SupplierProductDetailPage({
       >
         <div className="cardInner" style={{ padding: 24 }}>
           <div
-            className="row"
+            className="row supplierProductHeroRow"
             style={{ justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}
           >
             <div>
@@ -146,23 +146,23 @@ export default async function SupplierProductDetailPage({
             </div>
 
             {canManageActions ? (
-              <div className="row" style={{ alignItems: "center", gap: 10 }}>
-                <form action={supplierSetProductStatus} className="row">
+              <div className="row supplierProductHeroActions" style={{ alignItems: "center", gap: 10 }}>
+                <form action={supplierSetProductStatus} className="row supplierProductHeroForm">
                   <input type="hidden" name="product_id" value={product.id} />
                   {product.status === "published" ? (
-                    <button className="btn" type="submit" name="status" value="draft">
+                    <button className="btn supplierProductHeroButton" type="submit" name="status" value="draft">
                       Delist
                     </button>
                   ) : (
-                    <button className="btn btnPrimary" type="submit" name="status" value="published">
+                    <button className="btn btnPrimary supplierProductHeroButton" type="submit" name="status" value="published">
                       List
                     </button>
                   )}
                 </form>
 
-                <form action={supplierDeleteProduct} className="row">
+                <form action={supplierDeleteProduct} className="row supplierProductHeroForm">
                   <input type="hidden" name="product_id" value={product.id} />
-                  <button className="btn" type="submit">
+                  <button className="btn supplierProductHeroButton" type="submit">
                     Delete
                   </button>
                 </form>
@@ -261,8 +261,8 @@ export default async function SupplierProductDetailPage({
 
             <div className="spacer" />
 
-            <div className="row">
-              <div style={{ flex: "1 1 420px" }}>
+            <div className="row supplierProductEditRow">
+              <div className="supplierProductEditField" style={{ flex: "1 1 420px" }}>
                 <label className="p">Product Name</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input
@@ -273,7 +273,7 @@ export default async function SupplierProductDetailPage({
                   disabled={isLocked}
                 />
               </div>
-              <div style={{ flex: "1 1 320px" }}>
+              <div className="supplierProductEditField" style={{ flex: "1 1 320px" }}>
                 <label className="p">Product No.</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input
@@ -284,7 +284,7 @@ export default async function SupplierProductDetailPage({
                   disabled={isLocked}
                 />
               </div>
-              <div style={{ flex: "1 1 320px" }}>
+              <div className="supplierProductEditField" style={{ flex: "1 1 320px" }}>
                 <label className="p">Serial Number (Optional)</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input
@@ -298,8 +298,8 @@ export default async function SupplierProductDetailPage({
 
             <div className="spacer" />
 
-            <div className="row">
-              <div style={{ flex: "1 1 220px" }}>
+            <div className="row supplierProductEditRow">
+              <div className="supplierProductEditField" style={{ flex: "1 1 220px" }}>
                 <label className="p">Color (Optional)</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input
@@ -309,7 +309,7 @@ export default async function SupplierProductDetailPage({
                   disabled={isLocked}
                 />
               </div>
-              <div style={{ flex: "1 1 220px" }}>
+              <div className="supplierProductEditField" style={{ flex: "1 1 220px" }}>
                 <label className="p">Material (Optional)</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input
@@ -319,7 +319,7 @@ export default async function SupplierProductDetailPage({
                   disabled={isLocked}
                 />
               </div>
-              <div style={{ flex: "1 1 260px" }}>
+              <div className="supplierProductEditField" style={{ flex: "1 1 260px" }}>
                 <label className="p">Hardware Details (Optional)</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input
@@ -333,8 +333,8 @@ export default async function SupplierProductDetailPage({
 
             <div className="spacer" />
 
-            <div className="row">
-              <div style={{ flex: "1 1 300px" }}>
+            <div className="row supplierProductEditRow">
+              <div className="supplierProductEditField" style={{ flex: "1 1 300px" }}>
                 <label className="p">Size / Specs (Optional)</label>
                 <div className="spacer" style={{ height: 6 }} />
                 <input
@@ -369,7 +369,7 @@ export default async function SupplierProductDetailPage({
 
             {!isLocked ? (
               <div style={{ marginTop: 18 }}>
-                <button className="btn btnPrimary" type="submit">
+                <button className="btn btnPrimary supplierProductSaveButton" type="submit">
                   Save Changes
                 </button>
               </div>
