@@ -201,6 +201,7 @@ export default async function SupplierReservationsPage() {
             const canConfirm = r.status === "requested";
             const canReject = r.status === "requested" || r.status === "confirmed";
             const canSold = r.status === "confirmed";
+            const showActions = r.status === "requested" || r.status === "confirmed";
             const isNewRequest = r.status === "requested";
 
             const productName = r.products?.product_name ?? "Product";
@@ -358,26 +359,30 @@ export default async function SupplierReservationsPage() {
                         View product
                       </Link>
 
-                      <form action={supplierConfirmReservation}>
-                        <input type="hidden" name="reservation_id" value={r.id} />
-                        <button className="btn btnPrimary" type="submit" disabled={!canConfirm}>
-                          Confirm
-                        </button>
-                      </form>
+                      {showActions ? (
+                        <>
+                          <form action={supplierConfirmReservation}>
+                            <input type="hidden" name="reservation_id" value={r.id} />
+                            <button className="btn btnPrimary" type="submit" disabled={!canConfirm}>
+                              Confirm
+                            </button>
+                          </form>
 
-                      <form action={supplierRejectReservation}>
-                        <input type="hidden" name="reservation_id" value={r.id} />
-                        <button className="btn" type="submit" disabled={!canReject}>
-                          Reject
-                        </button>
-                      </form>
+                          <form action={supplierRejectReservation}>
+                            <input type="hidden" name="reservation_id" value={r.id} />
+                            <button className="btn" type="submit" disabled={!canReject}>
+                              Reject
+                            </button>
+                          </form>
 
-                      <form action={supplierSoldReservation}>
-                        <input type="hidden" name="reservation_id" value={r.id} />
-                        <button className="btn" type="submit" disabled={!canSold}>
-                          Sold
-                        </button>
-                      </form>
+                          <form action={supplierSoldReservation}>
+                            <input type="hidden" name="reservation_id" value={r.id} />
+                            <button className="btn" type="submit" disabled={!canSold}>
+                              Sold
+                            </button>
+                          </form>
+                        </>
+                      ) : null}
                     </div>
                   </div>
                 </div>

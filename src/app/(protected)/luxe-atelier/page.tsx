@@ -48,6 +48,12 @@ type ProfileLite = {
   role: "admin" | "supplier" | "customer" | null;
 };
 
+type ReservationLite = {
+  product_id: string;
+  quantity: number | null;
+  status: string | null;
+};
+
 type MarketRow = MarketProductRow & {
   supplier_country?: string | null;
   created_at?: string | null;
@@ -56,6 +62,7 @@ type MarketRow = MarketProductRow & {
   gender?: string | null;
   brand_subcategory_id?: number | null;
   brand_subcategory_en?: string | null;
+  reserved_quantity?: number;
 };
 
 function money(ccy: string | null | undefined, n: number | string | null | undefined) {
@@ -141,6 +148,9 @@ export default function LuxeAtelierPage() {
   async function runSearch(query: string) {
     setBusy(true);
     setErr(null);
+
+    const { data: authData } = await supabase.auth.getUser();
+    const uid = authData.user?.id ?? null;
 
     const { data, error } = await supabase.rpc("search_market_products", {
       p_query: query,
@@ -237,6 +247,28 @@ export default function LuxeAtelierPage() {
       })
     );
 
+    const reservationByProductId = new Map<string, number>();
+
+    if (uid) {
+      const { data: reservationsRaw, error: reservationsError } = await supabase
+        .from("reservations")
+        .select("product_id,quantity,status")
+        .eq("customer_id", uid)
+        .in("product_id", ids)
+        .in("status", ["requested", "confirmed"]);
+
+      if (reservationsError) {
+        setBusy(false);
+        setErr(reservationsError.message);
+        setRows([]);
+        return;
+      }
+
+      for (const rr of (reservationsRaw ?? []) as ReservationLite[]) {
+        reservationByProductId.set(String(rr.product_id), Math.max(1, Number(rr.quantity ?? 1)));
+      }
+    }
+
     const merged = baseRows.map((r) => {
       const extra = extrasById.get(String(r.id));
 
@@ -249,6 +281,7 @@ export default function LuxeAtelierPage() {
         gender: extra?.gender ?? null,
         brand_subcategory_id: extra?.brand_subcategory_id ?? null,
         brand_subcategory_en: extra?.catalog_brand_subcategories?.name_en ?? null,
+        reserved_quantity: reservationByProductId.get(String(r.id)) ?? 0,
       };
     });
 
@@ -605,7 +638,9 @@ export default function LuxeAtelierPage() {
             safeText(r.brand_subcategory_en) || (r.brand_subcategory_id != null ? `#${r.brand_subcategory_id}` : "—");
 
           const avail = Math.max(0, Number(r.quantity_available ?? 0));
+          const reservedQty = Math.max(0, Number(r.reserved_quantity ?? 0));
           const canReserve = isActiveCustomer && avail > 0;
+          const alreadyReserved = reservedQty > 0;
 
           return (
             <div
@@ -722,6 +757,12 @@ export default function LuxeAtelierPage() {
                         <span>Available</span>
                         <span className="kbd">{avail}</span>
                       </div>
+                      {alreadyReserved ? (
+                        <div className="badge">
+                          <span>Reserved</span>
+                          <span className="kbd">{reservedQty}</span>
+                        </div>
+                      ) : null}
                     </div>
 
                     <div className="spacer" style={{ height: 14 }} />
@@ -765,7 +806,7 @@ export default function LuxeAtelierPage() {
                           <select
                             className="input"
                             name="quantity"
-                            defaultValue="1"
+                            defaultValue={String(alreadyReserved ? reservedQty : 1)}
                             required
                             style={{
                               width: 78,
@@ -793,7 +834,7 @@ export default function LuxeAtelierPage() {
                               boxShadow: "0 10px 24px rgba(31,29,26,0.10)",
                             }}
                           >
-                            Reserve
+                            {alreadyReserved ? "Reserved" : "Reserve"}
                           </button>
                         </form>
                       ) : (

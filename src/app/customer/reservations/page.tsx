@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { supabaseServer } from "@/lib/supabase/server";
+import { customerCancelReservation } from "@/server/actions/customerCancelReservation";
 
 type Row = {
   id: string;
@@ -130,6 +131,7 @@ export default async function CustomerReservationsPage() {
           {rows.map((r) => {
             const qty = Number(r.quantity ?? 1);
             const productName = r.products?.product_name ?? "Product";
+            const canCancel = r.status === "requested" || r.status === "confirmed";
 
             const brand =
               r.products?.catalog_brands?.name_en ??
@@ -151,12 +153,7 @@ export default async function CustomerReservationsPage() {
             const totalPrice = unitPrice === null ? null : unitPrice * qty;
 
             return (
-              <Link
-                key={r.id}
-                href={`/product/${r.product_id}`}
-                className="card"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
+              <div key={r.id} className="card">
                 <div className="cardInner">
                   <div
                     className="row"
@@ -227,11 +224,23 @@ export default async function CustomerReservationsPage() {
                         <span>Status</span>
                         <span className="kbd">{r.status}</span>
                       </div>
-                      <div className="btn btnPrimary">View product</div>
+
+                      <Link className="btn btnPrimary" href={`/product/${r.product_id}`}>
+                        View product
+                      </Link>
+
+                      {canCancel ? (
+                        <form action={customerCancelReservation}>
+                          <input type="hidden" name="reservation_id" value={r.id} />
+                          <button className="btn" type="submit">
+                            Cancel reservation
+                          </button>
+                        </form>
+                      ) : null}
                     </div>
                   </div>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>
